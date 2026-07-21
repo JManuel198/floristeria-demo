@@ -90,15 +90,28 @@ cocogifts-web/
 ├── index.html         one-page con las 9 secciones
 ├── catalogo.html      página de catálogo completo (ver abajo)
 ├── css/
-│   ├── base/          _fonts, _variables, _reset, _tipografia
-│   ├── components/    _nav, _catalogo-tabs, _tarjeta-categoria,
-│   │                  _tarjeta-ocasion, _galeria, _comunidad,
-│   │                  _footer, _whatsapp-burbuja
-│   ├── sections/      _hero, _nosotras, _ocasiones, _catalogo-completo
-│   └── main.css       solo @imports, en orden de capas (base → sections → components)
-├── js/                catalogo-tabs.js (y futuros scripts, uno por componente)
+│   └── styles.css     hoja ÚNICA consolidada (sin @import entre archivos)
+├── js/
+│   └── main.js        script ÚNICO de tabs para ambas páginas (ver abajo)
 └── assets/img/        imágenes (por ahora placeholders SVG locales)
 ```
+
+### CSS: hoja única + cache-busting (refactor 2026-07-20)
+
+- Antes: 16 parciales (`css/base/`, `css/sections/`, `css/components/`) encadenados
+  con `@import` desde `main.css`, cada URL con su propio `?v=N`. Eso obligaba a
+  sincronizar ~18 números y provocaba que ediciones no se reflejaran (caché) además
+  de una cascada de peticiones secuenciales.
+- Ahora: **todo vive en `css/styles.css`**, en el mismo orden de cascada que tenían
+  los @import (**BASE → SECTIONS → COMPONENTS**), con separadores comentados
+  navegables: `/* === BASE: variables === */`, `/* === SECTIONS: hero === */`,
+  `/* === COMPONENTS: nav === */`, etc. La única `@import` que queda es la de
+  Google Fonts, que **debe seguir siendo la primera regla del archivo** (CSS exige
+  @import antes de cualquier otra regla).
+- **Cache-busting**: un único `?v=N` en el `<link>` de `css/styles.css` de cada HTML
+  (hoy `?v=3`). Al editar CSS y no verse el cambio, subir ese número en ambos HTML.
+  Los `<script>` llevan su propio `?v=N` con el mismo criterio.
+- No volver a fragmentar en parciales ni reintroducir @import entre archivos.
 
 ## Página catalogo.html
 
@@ -113,19 +126,32 @@ revirtiendo la versión previa de chips-ancla + categorías apiladas):
   `ocasiones-especiales`. Cada panel tiene un grid `.catalogo-tabs__productos` con
   **varios** productos (bloque `.tarjeta-categoria`), no un resumen único.
 - **Mejora progresiva**: sin JS los 4 paneles quedan apilados y visibles y la barra es
-  una fila de enlaces-ancla. `js/catalogo-completo-tabs.js` los convierte en tabs WAI-ARIA
+  una fila de enlaces-ancla. `js/main.js` los convierte en tabs WAI-ARIA
   (tablist/tab/tabpanel, roving tabindex, aria-selected, indicador de barra inferior
   además de color) dejando visible un solo panel.
-- **Soporte de hash / deep-link**: `js/catalogo-completo-tabs.js` lee `location.hash` al
-  cargar y activa esa categoría de entrada (p. ej. `catalogo.html#ramos`). También refleja
-  la tab activa en la URL con `history.replaceState` (sin salto de scroll) y escucha
-  `hashchange` (atrás/adelante). Los id de panel coinciden con el hash. El botón "Ver más"
-  del mini-catálogo (otra sesión) usará estos enlaces. Es un archivo aparte de
-  `js/catalogo-tabs.js` a propósito: meter el hash en el script compartido cambiaría el
-  comportamiento del mini-catálogo.
-- **Grid responsive**: 1 columna en mobile; en `≥1024px`, 3 columnas
+- **Soporte de hash / deep-link**: `js/main.js` lee `location.hash` al cargar y activa
+  esa categoría de entrada (p. ej. `catalogo.html#ramos`). También refleja la tab activa
+  en la URL con `history.replaceState` (sin salto de scroll) y escucha `hashchange`
+  (atrás/adelante). Los id de panel coinciden con el hash. El botón "Ver más" del
+  mini-catálogo (otra sesión) usará estos enlaces.
+- **Grid responsive**: 1 columna en mobile; en `≥1024px`, **2 columnas**
   (`.catalogo-completo .catalogo-tabs__productos`, gana por especificidad al 1fr 1fr del
   componente) y contenedor centrado a `max-width: 1080px`.
+
+### JS: script único (refactor 2026-07-20)
+
+`js/main.js` fusiona los antiguos `catalogo-tabs.js` (home) y
+`catalogo-completo-tabs.js` (catálogo completo): compartían toda la lógica de tabs.
+Los dos extras se autoactivan según la página, sin atributos en el HTML:
+
+- **"Ver más"** (solo home): el bloque es un no-op si no existen botones
+  `.catalogo-tabs__ver-mas` en la página.
+- **Modo hash** (solo catalogo.html): se activa cuando `.catalogo-tabs` vive dentro
+  de `.catalogo-completo`, contenedor exclusivo de esa página
+  (`raiz.closest('.catalogo-completo')`). La home nunca toca la URL al cambiar de tab.
+  ⚠️ Si algún día se renombra `.catalogo-completo`, actualizar ese detector.
+
+Ambas páginas cargan `js/main.js?v=N` (mismo criterio de cache-busting que el CSS).
 
 El botón "Ver catálogo completo" de index.html enlaza aquí.
 ⚠️ TODO visible: hoy la página combina los 8 productos de muestra de example-design
@@ -169,7 +195,7 @@ imagen `placeholder-producto.svg`); el catálogo real completo está pendiente d
 - ✅ Las 9 secciones de index.html construidas (nav, hero+promo, nosotras,
   catálogo con tabs, galería, comunidad, ocasiones, footer, burbuja WhatsApp).
 - ✅ catalogo.html (catálogo completo con **tabs** por categoría, varios productos por
-  categoría y soporte de hash para deep-link; `js/catalogo-completo-tabs.js`).
+  categoría y soporte de hash para deep-link; `js/main.js`).
 - ⬜ Pendiente del cliente: precios reales, número de WhatsApp real
   (placeholder `584120000000`), fotos reales (ahora SVG placeholder), mapa real,
   y los productos del catálogo completo (hoy los 8 de muestra de example-design

@@ -1,19 +1,25 @@
-/* Tabs de la página de catálogo completo (catalogo.html) — mejora progresiva.
+/* Tabs del catálogo — script único para index.html (mini-catálogo) y
+ * catalogo.html (catálogo completo). Fusión de los antiguos catalogo-tabs.js
+ * y catalogo-completo-tabs.js: compartían toda la lógica de tabs y solo
+ * diferían en dos extras, que aquí se autoactivan según la página:
  *
- * Comparte el patrón visual y ARIA del mini-catálogo de la home
- * (js/catalogo-tabs.js), pero es un archivo aparte a propósito: aquí añadimos
- * soporte de hash (catalogo.html#ramos abre esa categoría de entrada) y NO
- * existe el desplegable "Ver más". Meter esta lógica en el script compartido
- * cambiaría el comportamiento del mini-catálogo, que esta sesión no debe tocar.
+ * - "Ver más" (solo la home): el bloque final es un no-op si la página no
+ *   tiene botones .catalogo-tabs__ver-mas.
+ * - Soporte de hash (solo catalogo.html): se activa cuando las tabs viven
+ *   dentro de .catalogo-completo, el contenedor exclusivo de esa página.
+ *   Así el deep-link catalogo.html#ramos abre esa categoría de entrada
+ *   sin que la home mueva el hash al cambiar de tab.
  *
- * Sin este script: los 4 paneles quedan apilados y visibles, y la barra de tabs
- * es una fila de enlaces-ancla hacia cada categoría (catalogo.html#ramos hace un
- * salto normal). Nada del contenido ni de los CTA de WhatsApp depende de JS.
+ * Mejora progresiva sobre HTML que ya funciona solo. Sin este script: los
+ * paneles quedan apilados y visibles, la barra de tabs es una fila de
+ * enlaces-ancla y el contenido "extra" de la home está desplegado (sus
+ * botones "Ver más" nacen con hidden). Todos los CTA de WhatsApp son
+ * enlaces wa.me normales, así que nada depende de JS.
  *
  * Con este script: semántica WAI-ARIA de tabs (tablist/tab/tabpanel, roving
- * tabindex), un solo panel visible, y la categoría inicial se toma del hash.
- * Los roles ARIA se asignan aquí y no en el HTML porque, si el JS no carga, un
- * role="tab" estático prometería un comportamiento (paneles ocultos) que no existe.
+ * tabindex) y un solo panel visible. Los roles ARIA se asignan aquí y no en
+ * el HTML a propósito: si el JS no carga, un role="tab" estático prometería
+ * un comportamiento que no existe.
  */
 (function () {
   'use strict';
@@ -27,6 +33,10 @@
     document.getElementById(tab.getAttribute('href').slice(1))
   );
   if (!lista || tabs.length === 0 || paneles.some((p) => !p)) return;
+
+  /* Interruptor de página: solo catalogo.html envuelve las tabs en
+     .catalogo-completo; la home no debe tocar la URL al cambiar de tab. */
+  const conHash = raiz.closest('.catalogo-completo') !== null;
 
   raiz.classList.add('catalogo-tabs--js');
 
@@ -53,7 +63,7 @@
       paneles[i].hidden = !esActiva;
     });
     activa = indice;
-    if (sincronizarHash) {
+    if (conHash && sincronizarHash) {
       /* Refleja la categoría activa en la URL para poder compartir/recargar el
          enlace profundo, con replaceState: sin nueva entrada de historial y sin
          provocar el salto de scroll que haría asignar location.hash. */
@@ -98,16 +108,39 @@
     }
   });
 
-  /* Deep-link: si la página abre con catalogo.html#ramos (p. ej. desde el botón
-     "Ver más" del mini-catálogo), esa categoría queda activa desde el inicio.
-     No sincronizamos el hash aquí: ya viene puesto y el navegador hará su salto. */
-  const inicial = indiceDesdeHash();
+  /* Deep-link (solo catalogo.html): si la página abre con catalogo.html#ramos,
+     esa categoría queda activa desde el inicio. No sincronizamos el hash aquí:
+     ya viene puesto y el navegador hará su salto. */
+  const inicial = conHash ? indiceDesdeHash() : -1;
   seleccionar(inicial >= 0 ? inicial : 0, false, false);
 
-  /* Mantiene la tab en sincronía si el hash cambia después de cargar
-     (botón atrás/adelante o edición manual de la URL). */
-  window.addEventListener('hashchange', () => {
-    const indice = indiceDesdeHash();
-    if (indice >= 0 && indice !== activa) seleccionar(indice, false, false);
+  if (conHash) {
+    /* Mantiene la tab en sincronía si el hash cambia después de cargar
+       (botón atrás/adelante o edición manual de la URL). */
+    window.addEventListener('hashchange', () => {
+      const indice = indiceDesdeHash();
+      if (indice >= 0 && indice !== activa) seleccionar(indice, false, false);
+    });
+  }
+
+  /* "Ver más" (solo la home): expande el segundo producto de la categoría sin
+     navegar. El botón nace con hidden en el HTML y solo se muestra aquí, porque
+     sin JS el contenido extra ya está visible y el botón no tendría nada que
+     hacer. En catalogo.html no existen estos botones y el bloque es un no-op. */
+  raiz.querySelectorAll('.catalogo-tabs__ver-mas').forEach((boton) => {
+    const extra = document.getElementById(boton.getAttribute('aria-controls'));
+    const etiqueta = boton.querySelector('.catalogo-tabs__ver-mas-texto');
+    if (!extra || !etiqueta) return;
+
+    boton.hidden = false;
+    boton.setAttribute('aria-expanded', 'false');
+    extra.hidden = true;
+
+    boton.addEventListener('click', () => {
+      const abierto = boton.getAttribute('aria-expanded') === 'true';
+      boton.setAttribute('aria-expanded', String(!abierto));
+      extra.hidden = abierto;
+      etiqueta.textContent = abierto ? boton.dataset.labelMas : boton.dataset.labelMenos;
+    });
   });
 })();

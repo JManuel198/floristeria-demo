@@ -5,11 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CocoGifts — Arte floral en Acarigua</title>
 <meta name="description" content="Arte floral hecho a mano en Acarigua — ramos, bouquets con globos y rosas eternas. Cotiza por WhatsApp.">
-<!-- Preconnect a Google Fonts: el @import de las fuentes vive en css/base/_fonts.css. -->
+<!-- Preconnect a Google Fonts: el @import de las fuentes vive al inicio de css/styles.css. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="css/main.css?v=2">
-<script src="js/catalogo-tabs.js?v=2" defer></script>
+<!-- Hoja única (sin @import): un solo ?v=N que subir cuando el CSS no se refresque. -->
+<link rel="stylesheet" href="css/styles.css?v=3">
+<script src="js/main.js?v=1" defer></script>
 </head>
 <body>
 
@@ -98,7 +99,7 @@
 
   <div class="catalogo-tabs">
     <!-- Sin JS: fila de enlaces-ancla hacia los paneles apilados de abajo.
-         js/catalogo-tabs.js convierte esto en tablist ARIA (role, aria-selected,
+         js/main.js convierte esto en tablist ARIA (role, aria-selected,
          roving tabindex) y deja visible solo el panel activo. -->
     <div class="catalogo-tabs__lista" aria-label="Categorías del catálogo">
       <a class="catalogo-tabs__tab" href="#catalogo-panel-ramos">Ramos</a>
