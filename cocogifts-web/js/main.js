@@ -85,10 +85,24 @@
     return tabs.findIndex((tab) => tab.getAttribute('href').slice(1) === objetivo);
   }
 
+  /* Altura de la nav fija (.nav__barra), igual en mobile y desktop; usada para
+     no dejar el inicio de la categoría tapado por la nav. */
+  const ALTURA_NAV = 56;
+
   tabs.forEach((tab, i) => {
     tab.addEventListener('click', (evento) => {
       evento.preventDefault(); // sin JS el href ancla; con JS el salto sobra
       seleccionar(i, false, true);
+      /* Solo catalogo.html: cada categoría arranca desde el inicio en vez de
+         quedar a mitad de scroll de la categoría anterior. No se usa
+         lista.scrollIntoView: al estar "pegada" (sticky) por el scroll previo,
+         su posición ya reportada es top:56 y el navegador cree que no hace
+         falta mover nada. Se calcula contra `raiz` (.catalogo-tabs), que no es
+         sticky, para obtener siempre su posición real en el documento. */
+      if (conHash) {
+        const destinoY = raiz.getBoundingClientRect().top + window.scrollY - ALTURA_NAV;
+        window.scrollTo({ top: destinoY, behavior: 'smooth' });
+      }
     });
   });
 

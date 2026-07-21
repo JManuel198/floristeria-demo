@@ -384,14 +384,6 @@ a:hover {
   margin-bottom: 12px;
 }
 
-/* Aviso TODO visible mientras el cliente no entregue el catálogo real: hoy la
-   página mezcla los productos de muestra de example-design con placeholders. */
-.catalogo-completo__todo {
-  font-size: 12px;
-  color: var(--color-texto-mute);
-  margin-bottom: 8px;
-}
-
 @media (min-width: 1024px) {
   .catalogo-completo {
     max-width: 1080px;
