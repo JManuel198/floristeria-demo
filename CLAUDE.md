@@ -4,7 +4,7 @@
 
 Floristería en Acarigua, Edo. Portuguesa, Venezuela. Fundadoras: Maru y Ana.
 Productos: arte floral hecho a mano — ramos, bouquets con globos, rosas eternas.
-Comunidad: 31K seguidores en Instagram ([@cocogifts.ca](https://instagram.com/cocogifts.ca)).
+Comunidad: 31K seguidores en Instagram ([@cocogifts.ca](https://www.instagram.com/cocogifts.ca/)).
 Canal de venta principal: WhatsApp (cotizaciones vía enlaces `wa.me`).
 Sitio de una sola página, mobile-first, en español.
 
@@ -79,6 +79,27 @@ eliminó del catálogo el 2026-07-21 junto con la sección Ocasiones.
 
 ⚠️ **example-design NO trae precios** de ningún producto. Los precios en el sitio
 son TODO hasta que el cliente los defina — no inventarlos.
+
+### Productos de muestra agregados para la demo (2026-07-21)
+
+En `catalogo.html`, cada categoría mostraba 2 productos con copy real de example-design
+más 3 "Producto de ejemplo N" placeholder. Para la reunión de venta con la clienta se
+completaron esos 3 placeholder por categoría con copy ilustrativo (cálido, breve, sin
+tecnicismos, mismo tono que los productos reales), reutilizando las imágenes placeholder
+ya existentes en `assets/img/` (sin rutas nuevas) y sin precio (el campo de precio no
+existe en estas tarjetas). **Esto sigue sin ser el catálogo final** — es contenido de
+demo, pendiente del catálogo real, fotos y precios del cliente (ver aviso TODO de
+`catalogo.html`, que no se tocó):
+
+- **Ramos**: Ramo Tropical, Ramo Girasoles, Ramo Mixto Pastel.
+- **Globos**: Globo Cumpleaños Feliz, Globo Corazón y Rosas, Globo Metálico XL.
+- **Rosas Eternas**: Caja Corazón Eterna, Caja Trío Eterno, Caja Eterna Deluxe.
+
+Cada uno tiene su propio enlace `wa.me` con el nombre exacto del producto (patrón
+"Hola CocoGifts, quiero cotizar: <nombre>.") — ningún botón "Cotizar por WhatsApp"
+comparte mensaje con otro. Se confirmó también que el CTA "Cotizar" a nivel de
+categoría del mini-catálogo de `index.html` ya armaba su mensaje con el nombre de la
+categoría (Ramos/Globos/Rosas Eternas), no un texto genérico.
 
 Enlaces WhatsApp: `https://wa.me/584120000000?text=<mensaje URL-encoded>`.
 El número `584120000000` es placeholder — TODO: número real.
@@ -241,7 +262,15 @@ imagen `placeholder-producto.svg`); el catálogo real completo está pendiente d
   catálogo con tabs, galería, comunidad, footer, burbuja WhatsApp).
 - ✅ catalogo.html (catálogo completo con **tabs** por categoría, varios productos por
   categoría y soporte de hash para deep-link; `js/main.js`).
+- ✅ Instagram real confirmado (2026-07-21): los 5 enlaces del sitio (nav, botón
+  "Seguir" de Comunidad, footer x2) apuntan a `https://www.instagram.com/cocogifts.ca/`
+  y "31K seguidores" es dato real, no placeholder. Las 2 miniaturas de post en
+  Comunidad siguen siendo imágenes locales del proyecto — no por descuido, sino porque
+  no se pueden extraer fotos reales de Instagram por scraping/API en este flujo; no son
+  clickeables, así que no hace falta que enlacen al perfil.
+- ✅ Productos de muestra completados en `catalogo.html` (ver "Productos de muestra
+  agregados para la demo" arriba) — sigue sin ser el catálogo final.
 - ⬜ Pendiente del cliente: precios reales, número de WhatsApp real
-  (placeholder `584120000000`), fotos reales (ahora SVG placeholder), mapa real,
-  y los productos del catálogo completo (hoy los 8 de muestra de example-design
-  más productos "Producto de ejemplo N" marcados como placeholder).
+  (placeholder `584120000000`), fotos reales (ahora SVG/JPG placeholder), mapa real,
+  y el catálogo completo definitivo (hoy son productos de muestra ilustrativos para
+  la demo, ver sección de contenido del catálogo).
