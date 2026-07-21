@@ -305,44 +305,6 @@ a:hover {
   }
 }
 
-/* === SECTIONS: ocasiones === */
-
-/* Sección de ocasiones especiales: carrusel horizontal de tarjetas compactas. */
-.ocasiones {
-  padding: 44px 0 8px;
-}
-
-.ocasiones__titulo {
-  font-size: 24px;
-  font-weight: 800;
-  padding: 0 20px;
-  margin-bottom: 16px;
-}
-
-/* Mismo patrón "hscroll" del diseño: scroll horizontal con scrollbar oculta. */
-.ocasiones__carrusel {
-  display: flex;
-  gap: 12px;
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: none;
-  padding: 0 20px 4px;
-}
-
-.ocasiones__carrusel::-webkit-scrollbar {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  /* Se mantiene el carrusel también en desktop (8 tarjetas × 150px siguen sin
-     caber en 1080px): mismo patrón, sin duplicar layout. */
-  .ocasiones {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding-top: 64px;
-  }
-}
-
 /* === SECTIONS: catalogo-completo === */
 
 /* Página catalogo.html: catálogo completo con tabs por categoría.
@@ -384,10 +346,6 @@ a:hover {
   .catalogo-completo {
     max-width: 1080px;
     margin: 0 auto;
-  }
-
-  .catalogo-completo .catalogo-tabs__productos {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -741,7 +699,10 @@ body {
 
 .catalogo-tabs__productos {
   display: grid;
+  /* 2 columnas en todos los tamaños, mobile incluido. */
+  grid-template-columns: 1fr 1fr;
   gap: 16px;
+  align-items: start;
 }
 
 .catalogo-tabs__ver-mas {
@@ -775,7 +736,7 @@ body {
 
 @media (min-width: 1024px) {
   /* El diseño aprobado es un mockup móvil (430px): en desktop solo se centra
-     la sección con más aire y los productos pasan a 2 columnas. */
+     la sección con más aire. El grid ya es de 2 columnas en la regla base. */
   .catalogo {
     max-width: 760px;
     margin: 0 auto;
@@ -783,11 +744,6 @@ body {
 
   .catalogo__titulo {
     font-size: 28px;
-  }
-
-  .catalogo-tabs__productos {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
   }
 }
 
@@ -851,59 +807,6 @@ body {
 .tarjeta-categoria__cotizar:hover {
   background: var(--color-whatsapp-hover);
   color: #FFFFFF; /* evita que el hover rosa global de <a> pise el blanco */
-}
-
-/* === COMPONENTS: tarjeta-ocasion === */
-
-/* Tarjeta compacta del carrusel de ocasiones especiales. */
-.tarjeta-ocasion {
-  flex: 0 0 150px;
-  display: flex;
-  flex-direction: column;
-  background: var(--color-superficie);
-  border: 1px solid var(--color-borde);
-  border-radius: var(--radio-tarjeta);
-  overflow: hidden;
-}
-
-.tarjeta-ocasion__imagen {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-}
-
-.tarjeta-ocasion__cuerpo {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  padding: 10px;
-  flex: 1;
-}
-
-.tarjeta-ocasion__nombre {
-  font-size: 13px;
-  font-weight: 700;
-}
-
-.tarjeta-ocasion__cotizar {
-  margin-top: auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* example-design usa 34px de alto; se sube al target táctil mínimo (44px)
-     acordado en las convenciones del proyecto. */
-  min-height: 44px;
-  border: 1.5px solid var(--color-whatsapp);
-  border-radius: 10px;
-  color: var(--color-whatsapp-hover);
-  font-weight: 700;
-  font-size: 12px;
-  transition: background-color 0.15s ease, color 0.15s ease;
-}
-
-.tarjeta-ocasion__cotizar:hover {
-  background: var(--color-whatsapp);
-  color: #FFFFFF;
 }
 
 /* === COMPONENTS: galeria === */
@@ -1071,24 +974,6 @@ body {
   margin-bottom: 14px;
 }
 
-.footer__enlaces {
-  display: flex;
-  flex-direction: column;
-}
-
-.footer__enlace {
-  display: flex;
-  align-items: center;
-  min-height: 44px;
-  font-size: 14.5px;
-  font-weight: 600;
-  color: var(--color-texto);
-}
-
-.footer__enlace:hover {
-  color: var(--color-acento);
-}
-
 .footer__dato {
   display: flex;
   gap: 12px;
@@ -1178,7 +1063,9 @@ body {
 @media (min-width: 1024px) {
   .footer__contenido {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    /* 3 grupos: marca, horario/ubicación y contacto (el grupo de enlaces se
+       quitó por redundar con el menú hamburguesa). */
+    grid-template-columns: repeat(3, 1fr);
     gap: 40px;
     max-width: 1080px;
     margin: 0 auto;

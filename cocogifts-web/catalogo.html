@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Hoja única (sin @import): un solo ?v=N que subir cuando el CSS no se refresque. -->
-<link rel="stylesheet" href="css/styles.css?v=3">
+<link rel="stylesheet" href="css/styles.css?v=4">
 <!-- Mejora progresiva: sin JS los paneles quedan apilados y la barra es una fila
      de enlaces-ancla. js/main.js los convierte en tabs ARIA y lee el hash
      (catalogo.html#ramos) para abrir esa categoría de entrada. -->
@@ -26,7 +26,6 @@
       <a class="nav__enlace" href="catalogo.html" aria-current="page">Catálogo</a>
       <a class="nav__enlace" href="index.html#galeria">Galería</a>
       <a class="nav__enlace" href="index.html#comunidad">Comunidad</a>
-      <a class="nav__enlace" href="index.html#ocasiones">Ocasiones</a>
       <a class="nav__enlace" href="index.html#contacto">Contacto</a>
     </nav>
     <a class="nav__hamburguesa" href="#menu-movil" aria-label="Abrir menú">
@@ -46,7 +45,6 @@
       <a class="nav__menu-enlace" href="catalogo.html">Catálogo</a>
       <a class="nav__menu-enlace" href="index.html#galeria">Galería</a>
       <a class="nav__menu-enlace" href="index.html#comunidad">Comunidad</a>
-      <a class="nav__menu-enlace" href="index.html#ocasiones">Ocasiones</a>
       <a class="nav__menu-enlace" href="index.html#contacto">Contacto</a>
     </nav>
     <div class="nav__menu-acciones">
@@ -68,14 +66,13 @@
 
   <!-- Mismo componente .catalogo-tabs que el mini-catálogo de la home: sin JS son
        enlaces-ancla + paneles apilados; con JS, tabs ARIA con un panel visible.
-       Los id de panel (ramos/globos/eternas/ocasiones-especiales) son el destino
-       del hash de deep-link (catalogo.html#ramos). -->
+       Los id de panel (ramos/globos/eternas) son el destino del hash de
+       deep-link (catalogo.html#ramos). -->
   <div class="catalogo-tabs">
     <div class="catalogo-tabs__lista" aria-label="Categorías del catálogo">
       <a class="catalogo-tabs__tab" href="#ramos">Ramos</a>
       <a class="catalogo-tabs__tab" href="#globos">Globos</a>
       <a class="catalogo-tabs__tab" href="#eternas">Rosas Eternas</a>
-      <a class="catalogo-tabs__tab" href="#ocasiones-especiales">Ocasiones Especiales</a>
     </div>
 
     <section class="catalogo-tabs__panel" id="ramos">
@@ -309,82 +306,6 @@
       </div>
     </section>
 
-    <section class="catalogo-tabs__panel" id="ocasiones-especiales">
-      <h2 class="catalogo-tabs__categoria-titulo">Ocasiones Especiales</h2>
-      <p class="catalogo-tabs__categoria-descripcion">Arreglos para cada momento importante.</p>
-      <div class="catalogo-tabs__productos">
-        <!-- Producto de muestra de example-design (copy real de referencia). -->
-        <article class="tarjeta-categoria">
-          <img class="tarjeta-categoria__imagen" src="assets/img/arreglo-cumpleanos.svg" alt="Arreglo Cumpleaños" width="600" height="600" loading="lazy">
-          <div class="tarjeta-categoria__cuerpo">
-            <h3 class="tarjeta-categoria__nombre">Arreglo Cumpleaños</h3>
-            <p class="tarjeta-categoria__descripcion">Alegre y colorido para celebrar en grande.</p>
-            <!-- TODO: precio real pendiente del cliente. -->
-            <p class="tarjeta-categoria__precio">Precio: consultar por WhatsApp</p>
-            <a class="tarjeta-categoria__cotizar" href="https://wa.me/584120000000?text=Hola%20CocoGifts%2C%20quiero%20cotizar%3A%20Arreglo%20Cumplea%C3%B1os." target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2z" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 8.7c.2-.5.5-.5.8-.5h.6c.2 0 .4 0 .6.4.2.5.6 1.5.7 1.6.1.2.1.4 0 .6-.1.2-.2.3-.4.5-.2.2-.4.4-.2.7.2.4.9 1.4 1.9 2.3 1.3 1.1 2.3 1.4 2.7 1.6.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.7.8.2.1.4.2.4.3.1.2.1.9-.2 1.7-.3.8-1.7 1.5-2.4 1.6-.6.1-1.3.2-4.2-.9-3.5-1.4-5.7-4.9-5.9-5.1-.2-.2-1.4-1.9-1.4-3.6 0-1.7.9-2.5 1.2-2.8z" fill="currentColor"/></svg>
-              Cotizar por WhatsApp
-            </a>
-          </div>
-        </article>
-        <!-- Producto de muestra de example-design (copy real de referencia). -->
-        <article class="tarjeta-categoria">
-          <img class="tarjeta-categoria__imagen" src="assets/img/detalle-aniversario.svg" alt="Detalle Aniversario" width="600" height="600" loading="lazy">
-          <div class="tarjeta-categoria__cuerpo">
-            <h3 class="tarjeta-categoria__nombre">Detalle Aniversario</h3>
-            <p class="tarjeta-categoria__descripcion">Romántico, para su fecha especial.</p>
-            <!-- TODO: precio real pendiente del cliente. -->
-            <p class="tarjeta-categoria__precio">Precio: consultar por WhatsApp</p>
-            <a class="tarjeta-categoria__cotizar" href="https://wa.me/584120000000?text=Hola%20CocoGifts%2C%20quiero%20cotizar%3A%20Detalle%20Aniversario." target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2z" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 8.7c.2-.5.5-.5.8-.5h.6c.2 0 .4 0 .6.4.2.5.6 1.5.7 1.6.1.2.1.4 0 .6-.1.2-.2.3-.4.5-.2.2-.4.4-.2.7.2.4.9 1.4 1.9 2.3 1.3 1.1 2.3 1.4 2.7 1.6.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.7.8.2.1.4.2.4.3.1.2.1.9-.2 1.7-.3.8-1.7 1.5-2.4 1.6-.6.1-1.3.2-4.2-.9-3.5-1.4-5.7-4.9-5.9-5.1-.2-.2-1.4-1.9-1.4-3.6 0-1.7.9-2.5 1.2-2.8z" fill="currentColor"/></svg>
-              Cotizar por WhatsApp
-            </a>
-          </div>
-        </article>
-        <!-- PLACEHOLDER: producto inventado, no es contenido final (example-design no lo trae). -->
-        <article class="tarjeta-categoria">
-          <img class="tarjeta-categoria__imagen" src="assets/img/placeholder-producto.svg" alt="Producto de ejemplo 1 — imagen placeholder" width="600" height="600" loading="lazy">
-          <div class="tarjeta-categoria__cuerpo">
-            <h3 class="tarjeta-categoria__nombre">Producto de ejemplo 1</h3>
-            <p class="tarjeta-categoria__descripcion">Descripción de ejemplo — contenido pendiente del cliente.</p>
-            <!-- TODO: precio real pendiente del cliente. -->
-            <p class="tarjeta-categoria__precio">Precio: consultar por WhatsApp</p>
-            <a class="tarjeta-categoria__cotizar" href="https://wa.me/584120000000?text=Hola%20CocoGifts%2C%20quiero%20cotizar%3A%20Producto%20de%20ejemplo%201%20%28Ocasiones%20Especiales%29." target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2z" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 8.7c.2-.5.5-.5.8-.5h.6c.2 0 .4 0 .6.4.2.5.6 1.5.7 1.6.1.2.1.4 0 .6-.1.2-.2.3-.4.5-.2.2-.4.4-.2.7.2.4.9 1.4 1.9 2.3 1.3 1.1 2.3 1.4 2.7 1.6.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.7.8.2.1.4.2.4.3.1.2.1.9-.2 1.7-.3.8-1.7 1.5-2.4 1.6-.6.1-1.3.2-4.2-.9-3.5-1.4-5.7-4.9-5.9-5.1-.2-.2-1.4-1.9-1.4-3.6 0-1.7.9-2.5 1.2-2.8z" fill="currentColor"/></svg>
-              Cotizar por WhatsApp
-            </a>
-          </div>
-        </article>
-        <!-- PLACEHOLDER: producto inventado, no es contenido final (example-design no lo trae). -->
-        <article class="tarjeta-categoria">
-          <img class="tarjeta-categoria__imagen" src="assets/img/placeholder-producto.svg" alt="Producto de ejemplo 2 — imagen placeholder" width="600" height="600" loading="lazy">
-          <div class="tarjeta-categoria__cuerpo">
-            <h3 class="tarjeta-categoria__nombre">Producto de ejemplo 2</h3>
-            <p class="tarjeta-categoria__descripcion">Descripción de ejemplo — contenido pendiente del cliente.</p>
-            <!-- TODO: precio real pendiente del cliente. -->
-            <p class="tarjeta-categoria__precio">Precio: consultar por WhatsApp</p>
-            <a class="tarjeta-categoria__cotizar" href="https://wa.me/584120000000?text=Hola%20CocoGifts%2C%20quiero%20cotizar%3A%20Producto%20de%20ejemplo%202%20%28Ocasiones%20Especiales%29." target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2z" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 8.7c.2-.5.5-.5.8-.5h.6c.2 0 .4 0 .6.4.2.5.6 1.5.7 1.6.1.2.1.4 0 .6-.1.2-.2.3-.4.5-.2.2-.4.4-.2.7.2.4.9 1.4 1.9 2.3 1.3 1.1 2.3 1.4 2.7 1.6.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.7.8.2.1.4.2.4.3.1.2.1.9-.2 1.7-.3.8-1.7 1.5-2.4 1.6-.6.1-1.3.2-4.2-.9-3.5-1.4-5.7-4.9-5.9-5.1-.2-.2-1.4-1.9-1.4-3.6 0-1.7.9-2.5 1.2-2.8z" fill="currentColor"/></svg>
-              Cotizar por WhatsApp
-            </a>
-          </div>
-        </article>
-        <!-- PLACEHOLDER: producto inventado, no es contenido final (example-design no lo trae). -->
-        <article class="tarjeta-categoria">
-          <img class="tarjeta-categoria__imagen" src="assets/img/placeholder-producto.svg" alt="Producto de ejemplo 3 — imagen placeholder" width="600" height="600" loading="lazy">
-          <div class="tarjeta-categoria__cuerpo">
-            <h3 class="tarjeta-categoria__nombre">Producto de ejemplo 3</h3>
-            <p class="tarjeta-categoria__descripcion">Descripción de ejemplo — contenido pendiente del cliente.</p>
-            <!-- TODO: precio real pendiente del cliente. -->
-            <p class="tarjeta-categoria__precio">Precio: consultar por WhatsApp</p>
-            <a class="tarjeta-categoria__cotizar" href="https://wa.me/584120000000?text=Hola%20CocoGifts%2C%20quiero%20cotizar%3A%20Producto%20de%20ejemplo%203%20%28Ocasiones%20Especiales%29." target="_blank" rel="noopener">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2z" stroke="currentColor" stroke-width="1.6"/><path d="M8.5 8.7c.2-.5.5-.5.8-.5h.6c.2 0 .4 0 .6.4.2.5.6 1.5.7 1.6.1.2.1.4 0 .6-.1.2-.2.3-.4.5-.2.2-.4.4-.2.7.2.4.9 1.4 1.9 2.3 1.3 1.1 2.3 1.4 2.7 1.6.3.1.5.1.7-.1.2-.2.7-.8.9-1.1.2-.3.4-.2.6-.1.2.1 1.5.7 1.7.8.2.1.4.2.4.3.1.2.1.9-.2 1.7-.3.8-1.7 1.5-2.4 1.6-.6.1-1.3.2-4.2-.9-3.5-1.4-5.7-4.9-5.9-5.1-.2-.2-1.4-1.9-1.4-3.6 0-1.7.9-2.5 1.2-2.8z" fill="currentColor"/></svg>
-              Cotizar por WhatsApp
-            </a>
-          </div>
-        </article>
-      </div>
-    </section>
   </div>
 </main>
 
@@ -394,15 +315,6 @@
     <div class="footer__grupo">
       <span class="footer__marca">Coco<span class="footer__marca-acento">Gifts</span></span>
       <p class="footer__descripcion">Arte floral hecho a mano en Acarigua — ramos, globos y rosas eternas.</p>
-    </div>
-    <div class="footer__grupo">
-      <h2 class="footer__grupo-titulo">Enlaces</h2>
-      <nav class="footer__enlaces" aria-label="Enlaces del sitio">
-        <a class="footer__enlace" href="index.html#nosotras">Nosotras</a>
-        <a class="footer__enlace" href="catalogo.html">Catálogo</a>
-        <a class="footer__enlace" href="index.html#galeria">Galería</a>
-        <a class="footer__enlace" href="index.html#contacto">Contacto</a>
-      </nav>
     </div>
     <div class="footer__grupo">
       <h2 class="footer__grupo-titulo">Horario y ubicación</h2>
