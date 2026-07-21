@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="Promoción — imagen placeholder">
+  <rect width="600" height="600" fill="#FBEDF2"/>
+  <g stroke="#D6487A" stroke-width="10" fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Caja de regalo -->
+    <rect x="200" y="260" width="200" height="150" rx="8"/>
+    <path d="M200 310 H400"/>
+    <path d="M300 260 V410"/>
+    <!-- Lazo -->
+    <path d="M300 260 C270 220 230 220 250 250 C265 272 300 260 300 260 Z"/>
+    <path d="M300 260 C330 220 370 220 350 250 C335 272 300 260 300 260 Z"/>
+  </g>
+  <text x="300" y="480" text-anchor="middle" font-family="sans-serif" font-size="34" font-weight="700" fill="#5A2A3E">Promoción</text>
+  <text x="300" y="518" text-anchor="middle" font-family="sans-serif" font-size="18" fill="#B23A63">Imagen placeholder</text>
+</svg>

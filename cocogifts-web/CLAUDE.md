@@ -48,17 +48,19 @@ visual. Todo se reconstruye como HTML semántico + CSS + JS vanilla.
 - Carga vía Google Fonts (única dependencia externa permitida):
   `https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&display=swap`
 
-## Las 9 secciones del sitio
+## Las 8 secciones del sitio
+
+> La sección **Ocasiones** (carrusel `#ocasiones`) se eliminó el 2026-07-21; el sitio
+> pasó de 9 a 8 secciones. Ver "Decisiones de implementación".
 
 1. **Nav** — barra fija superior, logo "CocoGifts" (Coco negro + Gifts rosa), menú hamburguesa a pantalla completa con enlaces ancla + botones WhatsApp/Instagram.
-2. **Hero** (`#hero`) — foto destacada 4/5, h1 "Flores que dicen lo que las palabras no alcanzan.", subtítulo, CTA verde "Pedir por WhatsApp". Debajo: banner PROMO opcional sobre fondo rosado.
+2. **Hero** (`#hero`) — imagen **inmersiva** a sangre (4/5 en mobile, 16/9 en desktop) con el h1 "Flores que dicen lo que las palabras no alcanzan." y el subtítulo **superpuestos abajo** sobre un scrim oscuro (texto blanco). **Sin CTA** (eliminado el 2026-07-21). Debajo: **tarjeta PROMO** opcional (badge, título, descripción y CTA verde "Consultar promoción" a WhatsApp con mensaje placeholder `[PROMOCIÓN]`).
 3. **Nosotras** (`#nosotras`) — foto de Maru y Ana, texto de presentación, chip de ubicación "Acarigua, Edo. Portuguesa".
-4. **Catálogo** (`#catalogo`) — 4 categorías (Ramos, Globos, Rosas Eternas, Ocasiones Especiales). En este sitio se implementa con **tabs** (no las tarjetas apiladas del diseño original) para reducir scroll en mobile. Botón "Ver catálogo completo" junto al título.
+4. **Catálogo** (`#catalogo`) — 3 categorías (Ramos, Globos, Rosas Eternas) en **tabs**. Cada tab muestra **una tarjeta de la categoría** con un **feed vertical de fotos** (scroll-snap nativo, tipo Instagram) + CTA "Cotizar" a nivel categoría, y un enlace **"Ver más"** al catálogo completo anclado a esa categoría (`catalogo.html#ramos`/`#globos`/`#eternas`). Botón "Ver catálogo completo" junto al título.
 5. **Galería** (`#galeria`) — grid 2 columnas, 6 fotos de trabajos reales.
 6. **Comunidad** (`#comunidad`) — tarjeta rosada: "31K seguidores en Instagram", 2 posts, botón "Seguir @cocogifts.ca".
-7. **Ocasiones** (`#ocasiones`) — carrusel horizontal de 8 tarjetas (San Valentín, Día de la Madre, Aniversarios, Cumpleaños, Graduaciones, Condolencias, Bautizos, Baby Shower), cada una con botón "Cotizar".
-8. **Footer** (`#contacto`) — descripción, enlaces, horario (L–S 9:00 am–6:00 pm, domingo cerrado), dirección (Av. Los Próceres con Calle 33, Acarigua), mapa, CTAs WhatsApp/Instagram, copyright.
-9. **Burbuja WhatsApp** — botón flotante fijo abajo a la derecha, 56px, verde WhatsApp, con `env(safe-area-inset-bottom)`.
+7. **Footer** (`#contacto`) — descripción, horario (L–S 9:00 am–6:00 pm, domingo cerrado), dirección (Av. Los Próceres con Calle 33, Acarigua), mapa, CTAs WhatsApp/Instagram, copyright. (El grupo de enlaces "Nosotras/Catálogo/Galería/Contacto" se quitó por redundar con el menú hamburguesa.)
+8. **Burbuja WhatsApp** — botón flotante fijo abajo a la derecha, 56px, verde WhatsApp, con `env(safe-area-inset-bottom)`.
 
 ## Contenido del catálogo (copy exacto de example-design)
 
@@ -71,9 +73,9 @@ visual. Todo se reconstruye como HTML semántico + CSS + JS vanilla.
 - **Rosas Eternas** — "Duran hasta un año, siempre frescas."
   - Caja Mini Rosa Eterna — "Una rosa eterna en caja de regalo."
   - Caja Premium — "Rosas eternas en caja de lujo."
-- **Ocasiones Especiales** — "Arreglos para cada momento importante."
-  - Arreglo Cumpleaños — "Alegre y colorido para celebrar en grande."
-  - Detalle Aniversario — "Romántico, para su fecha especial."
+
+La categoría **Ocasiones Especiales** (Arreglo Cumpleaños, Detalle Aniversario) se
+eliminó del catálogo el 2026-07-21 junto con la sección Ocasiones.
 
 ⚠️ **example-design NO trae precios** de ningún producto. Los precios en el sitio
 son TODO hasta que el cliente los defina — no inventarlos.
@@ -109,8 +111,8 @@ cocogifts-web/
   Google Fonts, que **debe seguir siendo la primera regla del archivo** (CSS exige
   @import antes de cualquier otra regla).
 - **Cache-busting**: un único `?v=N` en el `<link>` de `css/styles.css` de cada HTML
-  (hoy `?v=3`). Al editar CSS y no verse el cambio, subir ese número en ambos HTML.
-  Los `<script>` llevan su propio `?v=N` con el mismo criterio.
+  (hoy `?v=5`). Al editar CSS y no verse el cambio, subir ese número en ambos HTML.
+  Los `<script>` llevan su propio `?v=N` con el mismo criterio (hoy `js/main.js?v=2`).
 - No volver a fragmentar en parciales ni reintroducir @import entre archivos.
 
 ## Página catalogo.html
@@ -121,35 +123,39 @@ revirtiendo la versión previa de chips-ancla + categorías apiladas):
 - **Encabezado** (`.catalogo-completo__encabezado`): h1 "Catálogo completo", subtítulo
   y aviso `TODO` visible.
 - **Tabs por categoría** reutilizando el componente `.catalogo-tabs` (mismo patrón
-  visual y ARIA que el mini-catálogo de la home): barra `.catalogo-tabs__lista` con 4
-  enlaces-tab y 4 `.catalogo-tabs__panel` con id `ramos`, `globos`, `eternas`,
-  `ocasiones-especiales`. Cada panel tiene un grid `.catalogo-tabs__productos` con
-  **varios** productos (bloque `.tarjeta-categoria`), no un resumen único.
-- **Mejora progresiva**: sin JS los 4 paneles quedan apilados y visibles y la barra es
+  visual y ARIA que el mini-catálogo de la home): barra `.catalogo-tabs__lista` con 3
+  enlaces-tab y 3 `.catalogo-tabs__panel` con id `ramos`, `globos`, `eternas`. Cada panel
+  tiene un grid `.catalogo-tabs__productos` con **varios** productos (bloque
+  `.tarjeta-categoria`), no un resumen único. (La 4.ª categoría, Ocasiones Especiales, se
+  eliminó el 2026-07-21.)
+- **Mejora progresiva**: sin JS los paneles quedan apilados y visibles y la barra es
   una fila de enlaces-ancla. `js/main.js` los convierte en tabs WAI-ARIA
   (tablist/tab/tabpanel, roving tabindex, aria-selected, indicador de barra inferior
   además de color) dejando visible un solo panel.
 - **Soporte de hash / deep-link**: `js/main.js` lee `location.hash` al cargar y activa
   esa categoría de entrada (p. ej. `catalogo.html#ramos`). También refleja la tab activa
   en la URL con `history.replaceState` (sin salto de scroll) y escucha `hashchange`
-  (atrás/adelante). Los id de panel coinciden con el hash. El botón "Ver más" del
-  mini-catálogo (otra sesión) usará estos enlaces.
-- **Grid responsive**: 1 columna en mobile; en `≥1024px`, **2 columnas**
-  (`.catalogo-completo .catalogo-tabs__productos`, gana por especificidad al 1fr 1fr del
-  componente) y contenedor centrado a `max-width: 1080px`.
+  (atrás/adelante). Los id de panel coinciden con el hash. El enlace **"Ver más"** del
+  mini-catálogo apunta aquí (`#ramos`/`#globos`/`#eternas`; ⚠️ el de Rosas Eternas usa
+  `#eternas`, no `#rosas-eternas`).
+- **Grid de productos**: **2 columnas en todos los tamaños** (mobile incluido), definido
+  en la regla base de `.catalogo-tabs__productos` (2026-07-21). Aplica igual al
+  mini-catálogo y al catálogo completo; ya no hay override por `@media`. El contenedor
+  del catálogo completo se centra a `max-width: 1080px` en `≥1024px`.
 
 ### JS: script único (refactor 2026-07-20)
 
 `js/main.js` fusiona los antiguos `catalogo-tabs.js` (home) y
-`catalogo-completo-tabs.js` (catálogo completo): compartían toda la lógica de tabs.
-Los dos extras se autoactivan según la página, sin atributos en el HTML:
+`catalogo-completo-tabs.js` (catálogo completo): comparten toda la lógica de tabs y
+solo se diferencian en el soporte de hash, que se autoactiva según la página:
 
-- **"Ver más"** (solo home): el bloque es un no-op si no existen botones
-  `.catalogo-tabs__ver-mas` en la página.
 - **Modo hash** (solo catalogo.html): se activa cuando `.catalogo-tabs` vive dentro
   de `.catalogo-completo`, contenedor exclusivo de esa página
   (`raiz.closest('.catalogo-completo')`). La home nunca toca la URL al cambiar de tab.
   ⚠️ Si algún día se renombra `.catalogo-completo`, actualizar ese detector.
+
+El "Ver más" del mini-catálogo ya **no** es un acordeón JS: es un enlace a
+`catalogo.html#<cat>` (se eliminó la lógica expandir/colapsar el 2026-07-21).
 
 Ambas páginas cargan `js/main.js?v=N` (mismo criterio de cache-busting que el CSS).
 
@@ -167,12 +173,36 @@ imagen `placeholder-producto.svg`); el catálogo real completo está pendiente d
 - **Nav y footer están duplicados** en index.html y catalogo.html (HTML estático,
   sin includes): cualquier edición debe replicarse en ambos archivos.
 - **Desktop**: el mockup aprobado es solo móvil (430px); en desktop cada sección
-  se centra (max-width 760–1080px según sección), el hero y nosotras pasan a 2
-  columnas, la galería a 3, y ocasiones mantiene el carrusel horizontal.
-- Botones "Cotizar" de ocasiones: 44px de alto (el diseño trae 34px; se sube al
-  target táctil mínimo del proyecto).
-- El banner `.promo` se elimina del HTML cuando no haya promo activa (equivale
-  al flag showPromo del diseño).
+  se centra (max-width 760–1080px según sección), nosotras pasa a 2 columnas, la
+  galería a 3, y el hero se ve como una tarjeta ancha (imagen 16/9) con el texto
+  superpuesto.
+- **Sección Ocasiones eliminada (2026-07-21)**: se quitó por completo el carrusel
+  `#ocasiones` (8 tarjetas `.tarjeta-ocasion`), su enlace en el nav y menú móvil, la
+  categoría "Ocasiones Especiales" del catálogo (tab + panel) en ambas páginas, y su CSS
+  (`.ocasiones`, `.tarjeta-ocasion`). Las imágenes `assets/img/ocasion-*.svg`,
+  `arreglo-cumpleanos.svg` y `detalle-aniversario.svg` quedaron sin uso pero **no** se
+  borraron (assets fuera de alcance).
+- **Enlaces del footer eliminados (2026-07-21)**: el grupo "Nosotras/Catálogo/Galería/
+  Contacto" (`.footer__enlaces`/`.footer__enlace`) se quitó de ambos footers por redundar
+  con el menú hamburguesa; su CSS también, y el grid del footer bajó de 4 a 3 columnas.
+- La **tarjeta `.promo`** se elimina del HTML cuando no haya promo activa (equivale
+  al flag showPromo del diseño). Para cambiar de promo: editar `.promo__titulo`,
+  `.promo__texto` y el `[PROMOCIÓN]` del `href` del `.promo__cta`.
+- **Hero inmersivo + Promo tarjeta (2026-07-21)**: el hero pasó a imagen a sangre con
+  `.hero__contenido` en `position:absolute` sobre un scrim (`.hero::after`, degradado
+  oscuro) y texto blanco; se **eliminó `.hero__cta`**. La `.promo` pasó de banner a
+  tarjeta (badge + título + descripción + CTA verde "Consultar promoción").
+- **Mini-catálogo: tarjeta = categoría (2026-07-21)**: cada tab muestra una sola
+  `.tarjeta-categoria` (ancho completo, sin el grid de 2 columnas) cuya imagen es un
+  **feed vertical** `.tarjeta-categoria__feed` (varias `.tarjeta-categoria__feed-img`,
+  `scroll-snap-type: y mandatory`, alto fijo 320px = una foto por vista, scrollbar
+  oculta, `tabindex="0"` para scroll por teclado). Hoy 2 fotos reales + 2 de galería
+  como **placeholder** por categoría. El grid de 2 columnas `.catalogo-tabs__productos`
+  queda solo para catalogo.html.
+- **"Ver más" = enlace (2026-07-21)**: `.catalogo-tabs__ver-mas` pasó de botón acordeón
+  a `<a>` hacia `catalogo.html#<cat>`; se quitó la lógica JS y el CSS de rotación del ícono.
+- **Ícono WhatsApp del footer (2026-07-21)**: `.footer__cta-whatsapp` no tenía SVG inline
+  (el CSS reservaba `gap` para él); se agregó el ícono en ambos footers.
 
 ## Convenciones técnicas
 
@@ -192,8 +222,8 @@ imagen `placeholder-producto.svg`); el catálogo real completo está pendiente d
 
 ## Estado
 
-- ✅ Las 9 secciones de index.html construidas (nav, hero+promo, nosotras,
-  catálogo con tabs, galería, comunidad, ocasiones, footer, burbuja WhatsApp).
+- ✅ Las 8 secciones de index.html construidas (nav, hero+promo, nosotras,
+  catálogo con tabs, galería, comunidad, footer, burbuja WhatsApp).
 - ✅ catalogo.html (catálogo completo con **tabs** por categoría, varios productos por
   categoría y soporte de hash para deep-link; `js/main.js`).
 - ⬜ Pendiente del cliente: precios reales, número de WhatsApp real

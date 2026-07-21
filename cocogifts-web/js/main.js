@@ -1,20 +1,18 @@
 /* Tabs del catálogo — script único para index.html (mini-catálogo) y
  * catalogo.html (catálogo completo). Fusión de los antiguos catalogo-tabs.js
- * y catalogo-completo-tabs.js: compartían toda la lógica de tabs y solo
- * diferían en dos extras, que aquí se autoactivan según la página:
+ * y catalogo-completo-tabs.js: comparten toda la lógica de tabs y solo se
+ * diferencian en el soporte de hash, que se autoactiva según la página:
  *
- * - "Ver más" (solo la home): el bloque final es un no-op si la página no
- *   tiene botones .catalogo-tabs__ver-mas.
  * - Soporte de hash (solo catalogo.html): se activa cuando las tabs viven
  *   dentro de .catalogo-completo, el contenedor exclusivo de esa página.
  *   Así el deep-link catalogo.html#ramos abre esa categoría de entrada
  *   sin que la home mueva el hash al cambiar de tab.
  *
  * Mejora progresiva sobre HTML que ya funciona solo. Sin este script: los
- * paneles quedan apilados y visibles, la barra de tabs es una fila de
- * enlaces-ancla y el contenido "extra" de la home está desplegado (sus
- * botones "Ver más" nacen con hidden). Todos los CTA de WhatsApp son
- * enlaces wa.me normales, así que nada depende de JS.
+ * paneles quedan apilados y visibles y la barra de tabs es una fila de
+ * enlaces-ancla. Todos los CTA de WhatsApp son enlaces wa.me normales y el
+ * "Ver más" del mini-catálogo es un enlace a catalogo.html, así que nada
+ * depende de JS.
  *
  * Con este script: semántica WAI-ARIA de tabs (tablist/tab/tabpanel, roving
  * tabindex) y un solo panel visible. Los roles ARIA se asignan aquí y no en
@@ -122,25 +120,4 @@
       if (indice >= 0 && indice !== activa) seleccionar(indice, false, false);
     });
   }
-
-  /* "Ver más" (solo la home): expande el segundo producto de la categoría sin
-     navegar. El botón nace con hidden en el HTML y solo se muestra aquí, porque
-     sin JS el contenido extra ya está visible y el botón no tendría nada que
-     hacer. En catalogo.html no existen estos botones y el bloque es un no-op. */
-  raiz.querySelectorAll('.catalogo-tabs__ver-mas').forEach((boton) => {
-    const extra = document.getElementById(boton.getAttribute('aria-controls'));
-    const etiqueta = boton.querySelector('.catalogo-tabs__ver-mas-texto');
-    if (!extra || !etiqueta) return;
-
-    boton.hidden = false;
-    boton.setAttribute('aria-expanded', 'false');
-    extra.hidden = true;
-
-    boton.addEventListener('click', () => {
-      const abierto = boton.getAttribute('aria-expanded') === 'true';
-      boton.setAttribute('aria-expanded', String(!abierto));
-      extra.hidden = abierto;
-      etiqueta.textContent = abierto ? boton.dataset.labelMas : boton.dataset.labelMenos;
-    });
-  });
 })();

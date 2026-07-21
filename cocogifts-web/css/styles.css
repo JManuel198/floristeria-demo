@@ -133,14 +133,38 @@ a:hover {
 /* Hero de portada + banner de promoción (el bloque .promo va justo debajo
    del hero en el flujo, como en example-design). */
 
+.hero {
+  position: relative;
+  isolation: isolate; /* contiene el apilado del scrim y el contenido sobre la imagen */
+}
+
 .hero__imagen {
+  display: block;
   width: 100%;
   aspect-ratio: 4 / 5;
   object-fit: cover;
 }
 
+/* Scrim: degradado oscuro de abajo hacia arriba para que el texto blanco sea
+   legible sobre cualquier foto (las actuales son placeholders claros). */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(to top,
+    rgba(0, 0, 0, 0.62) 0%,
+    rgba(0, 0, 0, 0.18) 45%,
+    rgba(0, 0, 0, 0) 72%);
+  pointer-events: none;
+}
+
+/* Contenido superpuesto sobre la imagen (abajo), no al lado ni debajo. */
 .hero__contenido {
-  padding: 24px 20px 20px;
+  position: absolute;
+  inset: auto 0 0 0;
+  z-index: 2;
+  padding: 24px 20px;
 }
 
 .hero__titulo {
@@ -149,47 +173,44 @@ a:hover {
   line-height: 1.15;
   letter-spacing: -0.02em;
   margin-bottom: 10px;
+  color: #FFFFFF;
 }
 
 .hero__subtitulo {
   font-size: 15px;
   line-height: 1.6;
-  color: var(--color-texto-secundario);
-  margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.9);
 }
 
-.hero__cta {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
-  min-height: 52px;
-  background: var(--color-whatsapp);
-  border-radius: 14px;
-  color: #FFFFFF;
-  font-weight: 700;
-  font-size: 16px;
-  transition: background-color 0.15s ease;
-}
-
-.hero__cta:hover {
-  background: var(--color-whatsapp-hover);
-  color: #FFFFFF;
-}
-
+/* Tarjeta de promoción: imagen a la izquierda (ancho proporcional controlado) y el
+   resto del contenido a la derecha (badge, título, texto y CTA), con flexbox. */
 .promo {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  margin: 0 20px 8px;
-  padding: 12px 16px;
+  align-items: stretch;
+  margin: 14px 20px;
   background: var(--color-acento-suave);
-  border-radius: 12px;
+  border: 1px solid var(--color-acento-borde);
+  border-radius: 16px;
+  overflow: hidden; /* recorta las esquinas de la imagen de la izquierda */
+}
+
+.promo__media {
+  flex: 0 0 38%;     /* contenedor de ancho proporcional controlado */
+  min-width: 116px;
+  object-fit: cover; /* la imagen llena su columna (que se estira a la altura del texto) */
+}
+
+.promo__contenido {
+  flex: 1;
+  min-width: 0;      /* permite que el texto haga wrap sin desbordar el flex */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 18px;
 }
 
 .promo__badge {
-  flex-shrink: 0;
   font-size: 10px;
   font-weight: 800;
   letter-spacing: 0.06em;
@@ -199,44 +220,73 @@ a:hover {
   border-radius: 6px;
 }
 
-.promo__texto {
-  font-size: 13px;
-  line-height: 1.4;
+.promo__titulo {
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
   color: var(--color-acento-oscuro);
 }
 
+.promo__texto {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--color-acento-oscuro);
+}
+
+/* CTA verde: mismo lenguaje que los demás botones de WhatsApp del sitio
+   (radio var(--radio-boton), padding 13/20, min 48px, peso 700, 15px). */
+.promo__cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  margin-top: 4px;
+  padding: 13px 20px;
+  background: var(--color-whatsapp);
+  border-radius: var(--radio-boton);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 15px;
+  transition: background-color 0.15s ease;
+}
+
+.promo__cta:hover {
+  background: var(--color-whatsapp-hover);
+  color: #FFFFFF; /* evita que el hover rosa global de <a> pise el blanco */
+}
+
 @media (min-width: 1024px) {
-  /* El mockup aprobado es solo móvil: en desktop la imagen 4/5 a ancho completo
-     sería desproporcionada, así que el hero pasa a dos columnas centradas. */
+  /* El mockup aprobado es solo móvil; en desktop el hero se centra como una
+     tarjeta ancha (imagen 16/9) con el texto superpuesto abajo. */
   .hero {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    align-items: center;
-    gap: 40px;
     max-width: 1080px;
     margin: 0 auto;
-    padding: 40px 20px 0;
+    border-radius: var(--radio-tarjeta);
+    overflow: hidden;
   }
 
   .hero__imagen {
-    border-radius: var(--radio-tarjeta);
+    aspect-ratio: 16 / 9;
   }
 
   .hero__contenido {
-    padding: 0;
+    max-width: 640px;
+    padding: 40px;
   }
 
   .hero__titulo {
-    font-size: 40px;
-  }
-
-  .hero__cta {
-    max-width: 340px;
+    font-size: 44px;
   }
 
   .promo {
-    max-width: 1040px;
+    max-width: 1080px;
     margin: 16px auto 8px;
+  }
+
+  /* En desktop la imagen de la promo pasa a un ancho fijo (no un 38% enorme). */
+  .promo__media {
+    flex: 0 0 320px;
   }
 }
 
@@ -346,6 +396,12 @@ a:hover {
   .catalogo-completo {
     max-width: 1080px;
     margin: 0 auto;
+  }
+
+  /* Catálogo completo: más columnas donde el espacio lo permite (3 en desktop).
+     El selector descendiente gana por especificidad al 1fr 1fr base del componente. */
+  .catalogo-completo .catalogo-tabs__productos {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -580,11 +636,11 @@ body {
   align-items: center;
   min-height: 40px;
   padding: 0 14px;
-  border: 1.5px solid var(--color-whatsapp);
+  border: 1.5px solid var(--color-acento-hover);
   border-radius: var(--radio-boton);
   /* Tono hover (más oscuro) como color de texto, igual que en example-design:
      el verde base no contrasta lo suficiente sobre blanco para texto. */
-  color: var(--color-whatsapp-hover);
+  color: var(--color-acento);
   font-weight: 700;
   font-size: 13px;
   white-space: nowrap;
@@ -592,7 +648,7 @@ body {
 }
 
 .catalogo__ver-completo:hover {
-  background: var(--color-whatsapp);
+  background: var(--color-acento);
   color: #FFFFFF;
 }
 
@@ -611,6 +667,16 @@ body {
   scrollbar-width: none;
   padding: 0 12px;
   border-bottom: 1px solid var(--color-borde);
+}
+
+/* Solo en catalogo.html: pegada justo debajo de la nav fija (56px de alto,
+   igual en mobile y desktop). Fondo + z-index propios para que las tarjetas
+   no se transparenten por debajo al hacer scroll. */
+.catalogo-completo .catalogo-tabs__lista {
+  position: sticky;
+  top: 56px;
+  z-index: 10;
+  background: var(--color-fondo);
 }
 
 .catalogo-tabs__lista::-webkit-scrollbar {
@@ -700,7 +766,7 @@ body {
 .catalogo-tabs__productos {
   display: grid;
   /* 2 columnas en todos los tamaños, mobile incluido. */
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: 16px;
   align-items: start;
 }
@@ -724,14 +790,6 @@ body {
 .catalogo-tabs__ver-mas:hover {
   background: var(--color-acento);
   color: #FFFFFF;
-}
-
-.catalogo-tabs__ver-mas-icono {
-  transition: transform 0.2s ease;
-}
-
-.catalogo-tabs__ver-mas[aria-expanded="true"] .catalogo-tabs__ver-mas-icono {
-  transform: rotate(180deg);
 }
 
 @media (min-width: 1024px) {
@@ -765,6 +823,39 @@ body {
   object-fit: cover;
 }
 
+/* Carrusel HORIZONTAL de la tarjeta de categoría del mini-catálogo (index.html):
+   se swipea de lado para ver más fotos de la categoría, tipo publicación de
+   Instagram. scroll-snap por foto, sin JS. En mobile cada foto ocupa todo el
+   ancho de la tarjeta (imagen protagonista); en desktop se ven varias a la vez
+   (ver @media más abajo). Scrollbar oculta, mismo patrón que los carruseles. */
+.tarjeta-categoria__feed {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.tarjeta-categoria__feed::-webkit-scrollbar {
+  display: none;
+}
+
+/* Contenedor scrolleable enfocable por teclado (tabindex=0): marca el foco. */
+.tarjeta-categoria__feed:focus-visible {
+  outline: 2px solid var(--color-acento);
+  outline-offset: -2px;
+}
+
+.tarjeta-categoria__feed-img {
+  flex: 0 0 100%; /* una foto por vista en mobile */
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  scroll-snap-align: start;
+}
+
 .tarjeta-categoria__cuerpo {
   display: flex;
   flex-direction: column;
@@ -784,29 +875,37 @@ body {
   color: var(--color-texto-secundario);
 }
 
-.tarjeta-categoria__precio {
-  font-size: 13px;
-  font-weight: 600;
-}
-
 .tarjeta-categoria__cotizar {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   min-height: 48px;
+  padding: 13px 20px; /* padding consistente con los demás CTA verdes del sitio */
   margin-top: auto; /* el CTA queda alineado abajo aunque las descripciones varíen de largo */
   background: var(--color-whatsapp);
   border-radius: var(--radio-boton);
   color: #FFFFFF;
   font-weight: 700;
-  font-size: 14px;
+  font-size: 15px;
   transition: background-color 0.15s ease;
 }
 
 .tarjeta-categoria__cotizar:hover {
   background: var(--color-whatsapp-hover);
   color: #FFFFFF; /* evita que el hover rosa global de <a> pise el blanco */
+}
+
+@media (min-width: 1024px) {
+  /* En desktop el carrusel del mini-catálogo muestra VARIAS fotos a la vez
+     (no una sola forzada): cada foto pasa a un ancho fijo y aparece un gap. */
+  .tarjeta-categoria__feed {
+    gap: 12px;
+  }
+
+  .tarjeta-categoria__feed-img {
+    flex-basis: 300px;
+  }
 }
 
 /* === COMPONENTS: galeria === */
@@ -999,11 +1098,16 @@ body {
 }
 
 .footer__mapa {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  height: 170px;
+  border: 1px solid var(--color-border);
+}
+.footer__mapa iframe {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  object-fit: cover;
-  border-radius: 14px;
-  margin-top: 4px;
+  height: 100%;
+  border: 0;
+  display: block;
 }
 
 .footer__cta {
@@ -1017,12 +1121,13 @@ body {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  min-height: 50px;
+  min-height: 48px;
+  padding: 13px 20px;
   background: var(--color-whatsapp);
-  border-radius: 14px;
+  border-radius: var(--radio-boton);
   color: #FFFFFF;
   font-weight: 700;
-  font-size: 14.5px;
+  font-size: 15px;
   transition: background-color 0.15s ease;
 }
 
@@ -1035,12 +1140,13 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 50px;
+  min-height: 48px;
+  padding: 13px 20px;
   border: 1.5px solid var(--color-acento);
-  border-radius: 14px;
+  border-radius: var(--radio-boton);
   color: var(--color-acento);
   font-weight: 700;
-  font-size: 14.5px;
+  font-size: 15px;
   transition: background-color 0.15s ease, color 0.15s ease;
 }
 
@@ -1093,12 +1199,20 @@ body {
   height: 56px;
   background: var(--color-whatsapp);
   border-radius: 50%;
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+  /* Sombra en dos capas: elevación más pulida y menos "dura" que una sola. */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.12);
   color: #FFFFFF;
-  transition: background-color 0.15s ease;
+  transition: background-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+/* Ícono centrado y con tamaño óptico dentro del círculo (el SVG viene a 28px). */
+.whatsapp-burbuja svg {
+  width: 26px;
+  height: 26px;
 }
 
 .whatsapp-burbuja:hover {
   background: var(--color-whatsapp-hover);
   color: #FFFFFF;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.20), 0 2px 6px rgba(0, 0, 0, 0.12);
 }
