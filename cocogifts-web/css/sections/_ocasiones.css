@@ -1,0 +1,35 @@
+/* Sección de ocasiones especiales: carrusel horizontal de tarjetas compactas. */
+.ocasiones {
+  padding: 44px 0 8px;
+}
+
+.ocasiones__titulo {
+  font-size: 24px;
+  font-weight: 800;
+  padding: 0 20px;
+  margin-bottom: 16px;
+}
+
+/* Mismo patrón "hscroll" del diseño: scroll horizontal con scrollbar oculta. */
+.ocasiones__carrusel {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0 20px 4px;
+}
+
+.ocasiones__carrusel::-webkit-scrollbar {
+  display: none;
+}
+
+@media (min-width: 1024px) {
+  /* Se mantiene el carrusel también en desktop (8 tarjetas × 150px siguen sin
+     caber en 1080px): mismo patrón, sin duplicar layout. */
+  .ocasiones {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding-top: 64px;
+  }
+}

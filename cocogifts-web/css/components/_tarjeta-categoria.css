@@ -1,0 +1,59 @@
+/* Tarjeta de producto dentro de un panel de categoría del catálogo. */
+.tarjeta-categoria {
+  display: flex;
+  flex-direction: column;
+  background: var(--color-superficie);
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio-tarjeta);
+  overflow: hidden;
+}
+
+.tarjeta-categoria__imagen {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+}
+
+.tarjeta-categoria__cuerpo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  flex: 1;
+}
+
+.tarjeta-categoria__nombre {
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.tarjeta-categoria__descripcion {
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--color-texto-secundario);
+}
+
+.tarjeta-categoria__precio {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.tarjeta-categoria__cotizar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 48px;
+  margin-top: auto; /* el CTA queda alineado abajo aunque las descripciones varíen de largo */
+  background: var(--color-whatsapp);
+  border-radius: var(--radio-boton);
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 14px;
+  transition: background-color 0.15s ease;
+}
+
+.tarjeta-categoria__cotizar:hover {
+  background: var(--color-whatsapp-hover);
+  color: #FFFFFF; /* evita que el hover rosa global de <a> pise el blanco */
+}

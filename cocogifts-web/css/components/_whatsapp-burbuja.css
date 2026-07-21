@@ -1,0 +1,23 @@
+/* Burbuja flotante de WhatsApp: siempre visible, esquina inferior derecha. */
+.whatsapp-burbuja {
+  position: fixed;
+  right: 20px;
+  /* safe-area: que no quede bajo la barra de gestos en iOS */
+  bottom: calc(24px + env(safe-area-inset-bottom));
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 56px;
+  height: 56px;
+  background: var(--color-whatsapp);
+  border-radius: 50%;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+  color: #FFFFFF;
+  transition: background-color 0.15s ease;
+}
+
+.whatsapp-burbuja:hover {
+  background: var(--color-whatsapp-hover);
+  color: #FFFFFF;
+}

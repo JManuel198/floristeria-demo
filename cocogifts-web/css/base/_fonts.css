@@ -1,0 +1,5 @@
+/* Única dependencia externa permitida: Inter + Inter Tight, tal como las usa
+   example-design. El @import vive aquí (y no como <link> en el HTML) para que
+   toda la cadena tipográfica quede declarada en CSS; los <link rel="preconnect">
+   del HTML compensan la latencia extra del encadenado de @imports. */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&display=swap');

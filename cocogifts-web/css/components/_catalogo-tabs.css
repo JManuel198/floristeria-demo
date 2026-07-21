@@ -1,0 +1,200 @@
+/* Catálogo con tabs por categoría.
+   Sin JS: los paneles quedan apilados y visibles (patrón original de example-design)
+   y la barra de tabs funciona como fila de enlaces-ancla. js/catalogo-tabs.js añade
+   la clase .catalogo-tabs--js y a partir de ahí aplican los estilos de "modo tabs". */
+
+.catalogo {
+  padding: 44px 0 8px;
+}
+
+.catalogo__encabezado {
+  padding: 0 20px;
+}
+
+.catalogo__fila-titulo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.catalogo__titulo {
+  font-size: 24px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.catalogo__ver-completo {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 14px;
+  border: 1.5px solid var(--color-whatsapp);
+  border-radius: var(--radio-boton);
+  /* Tono hover (más oscuro) como color de texto, igual que en example-design:
+     el verde base no contrasta lo suficiente sobre blanco para texto. */
+  color: var(--color-whatsapp-hover);
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.catalogo__ver-completo:hover {
+  background: var(--color-whatsapp);
+  color: #FFFFFF;
+}
+
+.catalogo__subtitulo {
+  font-size: 14px;
+  color: var(--color-texto-secundario);
+  margin-bottom: 20px;
+}
+
+/* Barra de tabs: scrolleable en horizontal si no caben en pantalla.
+   Scrollbar oculta, mismo patrón "hscroll" que usa example-design en sus carruseles. */
+.catalogo-tabs__lista {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.catalogo-tabs__lista::-webkit-scrollbar {
+  display: none;
+}
+
+.catalogo-tabs__tab {
+  position: relative;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  min-height: 44px; /* target táctil mínimo */
+  padding: 0 14px;
+  font-family: var(--fuente-titulos);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--color-texto-secundario);
+  white-space: nowrap;
+}
+
+.catalogo-tabs__tab:hover {
+  color: var(--color-texto);
+}
+
+/* Outline interior: el contenedor con overflow recortaría un outline normal. */
+.catalogo-tabs__tab:focus-visible {
+  outline: 2px solid var(--color-acento);
+  outline-offset: -2px;
+  border-radius: 8px;
+}
+
+/* Tab activa: color + barra indicadora inferior — doble señal, no solo color,
+   para que la selección sea perceptible sin distinguir tonos. */
+.catalogo-tabs__tab::after {
+  content: "";
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: -1px; /* pisa el borde inferior de la barra */
+  height: 3px;
+  border-radius: 3px 3px 0 0;
+  background: transparent;
+}
+
+.catalogo-tabs__tab--activa {
+  color: var(--color-acento);
+}
+
+.catalogo-tabs__tab--activa:hover {
+  color: var(--color-acento-hover);
+}
+
+.catalogo-tabs__tab--activa::after {
+  background: var(--color-acento);
+}
+
+.catalogo-tabs__panel {
+  padding: 20px 20px 0;
+  scroll-margin-top: 64px; /* mismo margen de ancla que usa el diseño (nav fija futura) */
+}
+
+.catalogo-tabs__categoria-titulo {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+/* Con JS activo el título de categoría duplica visualmente la tab activa:
+   se conserva solo para lectores de pantalla y el outline del documento. */
+.catalogo-tabs--js .catalogo-tabs__categoria-titulo {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.catalogo-tabs__categoria-descripcion {
+  font-size: 13px;
+  color: var(--color-texto-secundario);
+  margin-bottom: 14px;
+}
+
+.catalogo-tabs__productos {
+  display: grid;
+  gap: 16px;
+}
+
+.catalogo-tabs__ver-mas {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 44px;
+  margin-top: 16px;
+  border: 1.5px solid var(--color-acento);
+  border-radius: var(--radio-boton);
+  color: var(--color-acento);
+  font-weight: 700;
+  font-size: 14px;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.catalogo-tabs__ver-mas:hover {
+  background: var(--color-acento);
+  color: #FFFFFF;
+}
+
+.catalogo-tabs__ver-mas-icono {
+  transition: transform 0.2s ease;
+}
+
+.catalogo-tabs__ver-mas[aria-expanded="true"] .catalogo-tabs__ver-mas-icono {
+  transform: rotate(180deg);
+}
+
+@media (min-width: 1024px) {
+  /* El diseño aprobado es un mockup móvil (430px): en desktop solo se centra
+     la sección con más aire y los productos pasan a 2 columnas. */
+  .catalogo {
+    max-width: 760px;
+    margin: 0 auto;
+  }
+
+  .catalogo__titulo {
+    font-size: 28px;
+  }
+
+  .catalogo-tabs__productos {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+}

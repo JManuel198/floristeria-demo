@@ -1,0 +1,109 @@
+/* Hero de portada + banner de promoción (el bloque .promo va justo debajo
+   del hero en el flujo, como en example-design). */
+
+.hero__imagen {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+}
+
+.hero__contenido {
+  padding: 24px 20px 20px;
+}
+
+.hero__titulo {
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+}
+
+.hero__subtitulo {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--color-texto-secundario);
+  margin-bottom: 20px;
+}
+
+.hero__cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  min-height: 52px;
+  background: var(--color-whatsapp);
+  border-radius: 14px;
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 16px;
+  transition: background-color 0.15s ease;
+}
+
+.hero__cta:hover {
+  background: var(--color-whatsapp-hover);
+  color: #FFFFFF;
+}
+
+.promo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin: 0 20px 8px;
+  padding: 12px 16px;
+  background: var(--color-acento-suave);
+  border-radius: 12px;
+}
+
+.promo__badge {
+  flex-shrink: 0;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: #FFFFFF;
+  background: var(--color-acento);
+  padding: 4px 8px;
+  border-radius: 6px;
+}
+
+.promo__texto {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--color-acento-oscuro);
+}
+
+@media (min-width: 1024px) {
+  /* El mockup aprobado es solo móvil: en desktop la imagen 4/5 a ancho completo
+     sería desproporcionada, así que el hero pasa a dos columnas centradas. */
+  .hero {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 40px;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 40px 20px 0;
+  }
+
+  .hero__imagen {
+    border-radius: var(--radio-tarjeta);
+  }
+
+  .hero__contenido {
+    padding: 0;
+  }
+
+  .hero__titulo {
+    font-size: 40px;
+  }
+
+  .hero__cta {
+    max-width: 340px;
+  }
+
+  .promo {
+    max-width: 1040px;
+    margin: 16px auto 8px;
+  }
+}

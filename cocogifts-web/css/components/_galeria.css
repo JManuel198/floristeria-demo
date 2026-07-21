@@ -1,0 +1,41 @@
+/* Galería de trabajos reales: grid de fotos cuadradas. */
+.galeria {
+  padding: 44px 20px 8px;
+}
+
+.galeria__titulo {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 6px;
+}
+
+.galeria__subtitulo {
+  font-size: 14px;
+  color: var(--color-texto-secundario);
+  margin-bottom: 20px;
+}
+
+.galeria__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.galeria__imagen {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+@media (min-width: 1024px) {
+  .galeria {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding-top: 64px;
+  }
+
+  .galeria__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

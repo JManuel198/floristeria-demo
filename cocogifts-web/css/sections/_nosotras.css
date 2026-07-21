@@ -1,0 +1,62 @@
+/* Sección "Nosotras": presentación de Maru y Ana. */
+.nosotras {
+  padding: 44px 20px 8px;
+}
+
+.nosotras__titulo {
+  font-size: 24px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.nosotras__foto {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: var(--radio-tarjeta);
+  margin-bottom: 16px;
+}
+
+.nosotras__texto {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--color-texto-suave);
+  margin-bottom: 16px;
+}
+
+.nosotras__ubicacion {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--color-fondo-neutro);
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-texto-suave);
+}
+
+.nosotras__ubicacion-icono {
+  color: var(--color-acento);
+}
+
+@media (min-width: 1024px) {
+  .nosotras {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding-top: 64px;
+  }
+
+  .nosotras__titulo {
+    grid-column: 1 / -1;
+    margin-bottom: 0;
+  }
+
+  .nosotras__foto {
+    margin-bottom: 0;
+  }
+}
