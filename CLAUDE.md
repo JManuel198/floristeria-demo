@@ -146,8 +146,17 @@ Los 2 posts de la sección Comunidad son **embeds oficiales de Instagram**
 (`<blockquote class="instagram-media" data-instgrm-permalink="...">`, sin
 `data-instgrm-captioned` para mantenerlos compactos), no imágenes locales:
 
-- Post 1 → `https://www.instagram.com/cocogifts.ve/p/DYw1OBeFoWW/`
-- Post 2 → `https://www.instagram.com/cocogifts.ve/p/DV9XEy_FAyK/`
+- Post 1 → `https://www.instagram.com/p/DYw1OBeFoWW/`
+- Post 2 → `https://www.instagram.com/p/DV9XEy_FAyK/`
+
+⚠️ El atributo `data-instgrm-permalink` usa el **formato canónico sin el usuario en
+la ruta** (`instagram.com/p/{shortcode}/`), igual que el código de embed que genera
+el propio Instagram — no `instagram.com/cocogifts.ve/p/{shortcode}/`. La versión con
+usuario en la ruta provoca que Instagram rechace la carga del iframe por
+`X-Frame-Options`. El `<a>` de respaldo dentro del blockquote sí conserva la URL con
+el usuario (`https://www.instagram.com/cocogifts.ve/`), que es válida como enlace
+normal aunque no sirva como valor de `data-instgrm-permalink`. El handle de la cuenta
+es `@cocogifts.ve` (confirmado).
 
 El script oficial `https://www.instagram.com/embed.js` (cargado una sola vez, al
 final del `body` de `index.html`, con `async` y `defer`) reemplaza cada blockquote
