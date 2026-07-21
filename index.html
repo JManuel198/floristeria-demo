@@ -9,8 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <!-- Hoja única (sin @import): un solo ?v=N que subir cuando el CSS no se refresque. -->
-<link rel="stylesheet" href="css/styles.css?v=7">
-<script src="js/main.js?v=4" defer></script>
+<link rel="stylesheet" href="css/styles.css?v=8">
+<script src="js/main.js?v=5" defer></script>
 </head>
 <body>
 
@@ -116,14 +116,18 @@
       <h3 class="catalogo-tabs__categoria-titulo">Ramos</h3>
       <p class="catalogo-tabs__categoria-descripcion">Diseños frescos para cada ocasión.</p>
       <article class="tarjeta-categoria">
-        <!-- Feed vertical: varias fotos de la categoría, se scrollea dentro de la tarjeta. -->
+        <!-- Feed horizontal: varias fotos de la categoría, se scrollea dentro de la tarjeta. -->
         <div class="tarjeta-categoria__feed" tabindex="0" role="group" aria-label="Fotos de Ramos">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo1.jpg" alt="Ramo Primavera" width="600" height="600" loading="lazy">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo2.jpg" alt="Ramo Clásico de Rosas" width="600" height="600" loading="lazy">
           <!-- PLACEHOLDER: relleno del feed hasta tener más fotos reales de Ramos. -->
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo3.jpg" alt="Más fotos de Ramos (placeholder)" width="600" height="600" loading="lazy">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo4.jpg" alt="Más fotos de Ramos (placeholder)" width="600" height="600" loading="lazy">
+          <span class="tarjeta-categoria__feed-flecha" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
         </div>
+        <div class="tarjeta-categoria__dots" aria-hidden="true"></div>
         <div class="tarjeta-categoria__cuerpo">
           <!-- TODO: precio real pendiente del cliente (example-design no trae precios). -->
           <a class="tarjeta-categoria__cotizar" href="https://wa.me/584120000000?text=Hola%20CocoGifts%2C%20quiero%20cotizar%20de%20la%20categor%C3%ADa%3A%20Ramos." target="_blank" rel="noopener">
@@ -143,14 +147,18 @@
       <h3 class="catalogo-tabs__categoria-titulo">Globos</h3>
       <p class="catalogo-tabs__categoria-descripcion">Bouquets con globos que sorprenden.</p>
       <article class="tarjeta-categoria">
-        <!-- Feed vertical: varias fotos de la categoría, se scrollea dentro de la tarjeta. -->
+        <!-- Feed horizontal: varias fotos de la categoría, se scrollea dentro de la tarjeta. -->
         <div class="tarjeta-categoria__feed" tabindex="0" role="group" aria-label="Fotos de Globos">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo1.jpg" alt="Bouquet Globo &amp; Flores" width="600" height="600" loading="lazy">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo2.jpg" alt="Combo Sorpresa" width="600" height="600" loading="lazy">
           <!-- PLACEHOLDER: relleno del feed hasta tener más fotos reales de Globos. -->
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo3.jpg" alt="Más fotos de Globos (placeholder)" width="600" height="600" loading="lazy">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo4.jpg" alt="Más fotos de Globos (placeholder)" width="600" height="600" loading="lazy">
+          <span class="tarjeta-categoria__feed-flecha" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
         </div>
+        <div class="tarjeta-categoria__dots" aria-hidden="true"></div>
         <div class="tarjeta-categoria__cuerpo">
           <!-- TODO: precio real pendiente del cliente. -->
           <a class="tarjeta-categoria__cotizar" href="https://wa.me/584120000000?text=Hola%20CocoGifts%2C%20quiero%20cotizar%20de%20la%20categor%C3%ADa%3A%20Globos." target="_blank" rel="noopener">
@@ -170,14 +178,18 @@
       <h3 class="catalogo-tabs__categoria-titulo">Rosas Eternas</h3>
       <p class="catalogo-tabs__categoria-descripcion">Duran hasta un año, siempre frescas.</p>
       <article class="tarjeta-categoria">
-        <!-- Feed vertical: varias fotos de la categoría, se scrollea dentro de la tarjeta. -->
+        <!-- Feed horizontal: varias fotos de la categoría, se scrollea dentro de la tarjeta. -->
         <div class="tarjeta-categoria__feed" tabindex="0" role="group" aria-label="Fotos de Rosas Eternas">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo1.jpg" alt="Caja Mini Rosa Eterna" width="600" height="600" loading="lazy">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo2.jpg" alt="Caja Premium" width="600" height="600" loading="lazy">
           <!-- PLACEHOLDER: relleno del feed hasta tener más fotos reales de Rosas Eternas. -->
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo5.jpg" alt="Más fotos de Rosas Eternas (placeholder)" width="600" height="600" loading="lazy">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo6.jpg" alt="Más fotos de Rosas Eternas (placeholder)" width="600" height="600" loading="lazy">
+          <span class="tarjeta-categoria__feed-flecha" aria-hidden="true">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </span>
         </div>
+        <div class="tarjeta-categoria__dots" aria-hidden="true"></div>
         <div class="tarjeta-categoria__cuerpo">
           <!-- TODO: precio real pendiente del cliente. -->
           <a class="tarjeta-categoria__cotizar" href="https://wa.me/584120000000?text=Hola%20CocoGifts%2C%20quiero%20cotizar%20de%20la%20categor%C3%ADa%3A%20Rosas%20Eternas." target="_blank" rel="noopener">
@@ -251,13 +263,13 @@
       </div>
       <!-- TODO: sustituir por mapa real (imagen estática o embed) cuando el cliente lo defina. -->
       <div class="footer__mapa">
-      <iframe
-        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3980!2d-99.1332!3d19.4326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDI1JzU3LjQiTiA5OcKwMDcnNTkuNSJX!5e0!3m2!1ses!2smx!4v1700000000000"
-        title="Mapa de ubicación de La Esquina 24H"
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade"
-        allowfullscreen></iframe>
-      </div>    </div>
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3934.3581021048144!2d-69.21721922424832!3d9.564366680377592!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e7dc1c6ccf69421%3A0x4cb394b4f704f28f!2sCocogifts!5e0!3m2!1ses!2sbr!4v1784639754582!5m2!1ses!2sbr" 
+        title="Mapa de ubicación de CocoGifts"
+        allowfullscreen 
+        loading="lazy" 
+        referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>    
+    </div>
     <div class="footer__grupo">
       <h2 class="footer__grupo-titulo">Contacto</h2>
       <div class="footer__cta">

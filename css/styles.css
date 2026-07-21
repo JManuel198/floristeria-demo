@@ -821,6 +821,7 @@ body {
    ancho de la tarjeta (imagen protagonista); en desktop se ven varias a la vez
    (ver @media más abajo). Scrollbar oculta, mismo patrón que los carruseles. */
 .tarjeta-categoria__feed {
+  position: relative; /* contenedor de referencia para la flecha overlay */
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
@@ -846,6 +847,58 @@ body {
   aspect-ratio: 1 / 1;
   object-fit: cover;
   scroll-snap-align: start;
+  /* Evita que un swipe rápido salte de largo dos fotos: fuerza a que el
+     snap se detenga en cada imagen, no solo en la más cercana al soltar. */
+  scroll-snap-stop: always;
+}
+
+/* Flecha "desliza para ver más": overlay fijo sobre el feed (no hijo en flujo,
+   por eso no se mueve con el scroll horizontal del contenido). js/main.js le
+   agrega el modificador --interactuado, scoped a este feed, en su primer
+   scroll; el fade-out lo hace este CSS. */
+.tarjeta-categoria__feed-flecha {
+  position: absolute;
+  top: 50%;
+  right: 12px;
+  transform: translateY(-50%);
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(0, 0, 0, 0.35);
+  color: #FFFFFF;
+  pointer-events: none; /* no debe interceptar el gesto de swipe */
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.tarjeta-categoria__feed--interactuado .tarjeta-categoria__feed-flecha {
+  opacity: 0;
+}
+
+/* Dots: uno por foto del feed, generados en js/main.js a partir de las
+   imágenes reales (evita desincronizar un conteo fijo en el HTML). */
+.tarjeta-categoria__dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 0 0;
+}
+
+.tarjeta-categoria__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-borde);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.tarjeta-categoria__dot--activo {
+  background: var(--color-acento);
+  transform: scale(1.3);
 }
 
 .tarjeta-categoria__cuerpo {

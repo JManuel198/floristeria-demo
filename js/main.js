@@ -135,3 +135,50 @@
     });
   }
 })();
+
+/* Mejora progresiva del feed horizontal de fotos (.tarjeta-categoria__feed,
+ * mini-catálogo de index.html): flecha de swipe que se desvanece al primer
+ * scroll de cada tarjeta, y dots que reflejan la foto visible con
+ * IntersectionObserver. Sin este script el feed sigue siendo scroll-snap
+ * nativo funcional, solo sin flecha ni dots.
+ */
+(function () {
+  'use strict';
+
+  const feeds = document.querySelectorAll('.tarjeta-categoria__feed');
+
+  feeds.forEach((feed) => {
+    /* Modificador scoped a este feed (no una clase/flag global): cada
+       tarjeta guarda su propio estado de "ya me deslizaron". */
+    feed.addEventListener(
+      'scroll',
+      () => feed.classList.add('tarjeta-categoria__feed--interactuado'),
+      { once: true, passive: true }
+    );
+
+    const dots = feed.parentElement.querySelector('.tarjeta-categoria__dots');
+    const imagenes = Array.from(feed.querySelectorAll('.tarjeta-categoria__feed-img'));
+    if (!dots || imagenes.length === 0) return;
+
+    /* Un dot por foto real del feed, para no desincronizar un conteo fijo
+       en el HTML si el número de fotos cambia. */
+    imagenes.forEach(() => {
+      const dot = document.createElement('span');
+      dot.className = 'tarjeta-categoria__dot';
+      dots.appendChild(dot);
+    });
+    const listaDots = Array.from(dots.children);
+
+    const observador = new IntersectionObserver(
+      (entradas) => {
+        entradas.forEach((entrada) => {
+          const indice = imagenes.indexOf(entrada.target);
+          if (indice === -1) return;
+          listaDots[indice].classList.toggle('tarjeta-categoria__dot--activo', entrada.isIntersecting);
+        });
+      },
+      { root: feed, threshold: 0.6 }
+    );
+    imagenes.forEach((img) => observador.observe(img));
+  });
+})();

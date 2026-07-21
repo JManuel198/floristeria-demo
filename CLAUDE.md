@@ -56,7 +56,7 @@ visual. Todo se reconstruye como HTML semántico + CSS + JS vanilla.
 1. **Nav** — barra fija superior, logo "CocoGifts" (Coco negro + Gifts rosa), menú hamburguesa a pantalla completa con enlaces ancla + botones WhatsApp/Instagram.
 2. **Hero** (`#hero`) — imagen **inmersiva** a sangre (4/5 en mobile, 16/9 en desktop) con el h1 "Flores que dicen lo que las palabras no alcanzan." y el subtítulo **superpuestos abajo** sobre un scrim oscuro (texto blanco). **Sin CTA** (eliminado el 2026-07-21). Debajo: **tarjeta PROMO** opcional (badge, título, descripción y CTA verde "Consultar promoción" a WhatsApp con mensaje placeholder `[PROMOCIÓN]`).
 3. **Nosotras** (`#nosotras`) — foto de Maru y Ana, texto de presentación, chip de ubicación "Acarigua, Edo. Portuguesa".
-4. **Catálogo** (`#catalogo`) — 3 categorías (Ramos, Globos, Rosas Eternas) en **tabs**. Cada tab muestra **una tarjeta de la categoría** con un **feed vertical de fotos** (scroll-snap nativo, tipo Instagram) + CTA "Cotizar" a nivel categoría, y un enlace **"Ver más"** al catálogo completo anclado a esa categoría (`catalogo.html#ramos`/`#globos`/`#eternas`). Botón "Ver catálogo completo" junto al título.
+4. **Catálogo** (`#catalogo`) — 3 categorías (Ramos, Globos, Rosas Eternas) en **tabs**. Cada tab muestra **una tarjeta de la categoría** con un **feed horizontal de fotos** (scroll-snap nativo, tipo Instagram, con flecha de swipe y dots) + CTA "Cotizar" a nivel categoría, y un enlace **"Ver más"** al catálogo completo anclado a esa categoría (`catalogo.html#ramos`/`#globos`/`#eternas`). Botón "Ver catálogo completo" junto al título.
 5. **Galería** (`#galeria`) — grid 2 columnas, 6 fotos de trabajos reales.
 6. **Comunidad** (`#comunidad`) — tarjeta rosada: "31K seguidores en Instagram", 2 posts, botón "Seguir @cocogifts.ca".
 7. **Footer** (`#contacto`) — descripción, horario (L–S 9:00 am–6:00 pm, domingo cerrado), dirección (Av. Los Próceres con Calle 33, Acarigua), mapa, CTAs WhatsApp/Instagram, copyright. (El grupo de enlaces "Nosotras/Catálogo/Galería/Contacto" se quitó por redundar con el menú hamburguesa.)
@@ -194,15 +194,30 @@ imagen `placeholder-producto.svg`); el catálogo real completo está pendiente d
   tarjeta (badge + título + descripción + CTA verde "Consultar promoción").
 - **Mini-catálogo: tarjeta = categoría (2026-07-21)**: cada tab muestra una sola
   `.tarjeta-categoria` (ancho completo, sin el grid de 2 columnas) cuya imagen es un
-  **feed vertical** `.tarjeta-categoria__feed` (varias `.tarjeta-categoria__feed-img`,
-  `scroll-snap-type: y mandatory`, alto fijo 320px = una foto por vista, scrollbar
-  oculta, `tabindex="0"` para scroll por teclado). Hoy 2 fotos reales + 2 de galería
-  como **placeholder** por categoría. El grid de 2 columnas `.catalogo-tabs__productos`
+  **feed horizontal** `.tarjeta-categoria__feed` (varias `.tarjeta-categoria__feed-img`,
+  `scroll-snap-type: x mandatory`, una foto por vista en mobile (varias en desktop,
+  ver más abajo), scrollbar oculta, `tabindex="0"` para scroll por teclado). Hoy 2 fotos
+  reales + 2 placeholder por categoría. El grid de 2 columnas `.catalogo-tabs__productos`
   queda solo para catalogo.html.
 - **"Ver más" = enlace (2026-07-21)**: `.catalogo-tabs__ver-mas` pasó de botón acordeón
   a `<a>` hacia `catalogo.html#<cat>`; se quitó la lógica JS y el CSS de rotación del ícono.
 - **Ícono WhatsApp del footer (2026-07-21)**: `.footer__cta-whatsapp` no tenía SVG inline
   (el CSS reservaba `gap` para él); se agregó el ícono en ambos footers.
+- **Feed del mini-catálogo: flecha, dots y snap por foto (2026-07-21)**: 3 mejoras
+  independientes sobre `.tarjeta-categoria__feed` (solo index.html; catalogo.html usa
+  `.tarjeta-categoria__imagen`, una sola foto, no feed):
+  - `scroll-snap-stop: always` en `.tarjeta-categoria__feed-img` para que un swipe
+    rápido no salte de largo una foto.
+  - Flecha `.tarjeta-categoria__feed-flecha` (SVG, overlay `position:absolute` sobre
+    el feed, no se mueve con el scroll horizontal) que indica que se puede deslizar.
+    `js/main.js` le agrega `.tarjeta-categoria__feed--interactuado` (que la desvanece
+    por CSS) en el primer evento `scroll` de **ese** feed — estado por tarjeta, no un
+    flag global, así cada categoría mantiene su propia flecha hasta que la deslizan.
+  - Dots `.tarjeta-categoria__dots` (uno por foto, `.tarjeta-categoria__dot`): generados
+    en JS a partir de las `.tarjeta-categoria__feed-img` reales (no hay conteo fijo en
+    el HTML) y marcados `--activo` con un `IntersectionObserver` (`root` = el feed)
+    cuando su foto es la visible.
+  - Todo vive en un segundo IIFE al final de `js/main.js`, separado del de tabs.
 
 ## Convenciones técnicas
 
