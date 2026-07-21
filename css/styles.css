@@ -901,18 +901,20 @@ body {
   margin-bottom: 18px;
 }
 
+/* Instagram exige un ancho mínimo propio (326px) para sus embeds oficiales, así
+   que no caben 2 por fila en este layout mobile-only: se apilan verticalmente. */
 .comunidad__posts {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  grid-template-columns: 1fr;
+  gap: 16px;
   margin-bottom: 18px;
 }
 
-.comunidad__post {
-  width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
-  border-radius: 12px;
+/* Limita el ancho del embed para que no se vea desproporcionado frente al
+   resto de tarjetas del sitio; Instagram centra su propio contenido dentro. */
+.comunidad__embed {
+  max-width: 360px;
+  margin: 0 auto;
 }
 
 .comunidad__seguir {

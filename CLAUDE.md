@@ -7,7 +7,7 @@ español, para la floristería **CocoGifts**.
 
 Floristería en Acarigua, Edo. Portuguesa, Venezuela. Fundadoras: Maru y Ana.
 Productos: arte floral hecho a mano — ramos, bouquets con globos, rosas eternas.
-Comunidad: 31K seguidores en Instagram ([@cocogifts.ca](https://www.instagram.com/cocogifts.ca/)).
+Comunidad: 31K seguidores en Instagram ([@cocogifts.ve](https://www.instagram.com/cocogifts.ve/)).
 Canal de venta principal: WhatsApp (cotizaciones vía enlaces `wa.me`).
 
 Referencia de diseño: `../example-design/CocoGifts.dc.html` (exportación de Claude
@@ -30,8 +30,9 @@ floristeria-demo/
 └── assets/img/        imágenes del sitio
 ```
 
-Sin build ni dependencias: se abre `index.html` directamente en el navegador o se
-sirve como sitio estático.
+Sin build ni dependencias de npm: se abre `index.html` directamente en el navegador o
+se sirve como sitio estático (ver "Sin dependencias externas" en Convenciones técnicas
+para las dos excepciones de scripts/fuentes cargados por `<script>`/`<link>`).
 
 ## Arquitectura
 
@@ -96,8 +97,10 @@ Tokens de radio: `--radio-tarjeta: 16px`, `--radio-boton: 12px`.
 - **Inter** (400, 500, 600, 700): cuerpo de texto, familia base del `body`.
 - **Inter Tight** (600, 700, 800): titulares y logo. Peso 800 para h1/h2, 700 para
   h3/h4; `letter-spacing: -0.02em` en titulares grandes.
-- Carga vía Google Fonts (única dependencia externa):
+- Carga vía Google Fonts:
   `https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&display=swap`
+  (una de las dos dependencias externas del proyecto; ver "Sin dependencias
+  externas" en Convenciones técnicas).
 
 ## Las 8 secciones de index.html
 
@@ -118,7 +121,8 @@ Tokens de radio: `--radio-tarjeta: 16px`, `--radio-boton: 12px`.
    junto al título.
 5. **Galería** (`#galeria`) — grid de 2 columnas, 6 fotos de trabajos.
 6. **Comunidad** (`#comunidad`) — tarjeta rosada: "31K seguidores en Instagram", 2
-   posts y botón "Seguir @cocogifts.ca".
+   posts (embeds oficiales de Instagram, ver "Instagram" más abajo) y botón "Seguir
+   @cocogifts.ve".
 7. **Footer** (`#contacto`) — descripción, horario (L–S 9:00 am–6:00 pm, domingo
    cerrado), dirección (Av. Los Próceres con Calle 33, Acarigua), mapa, CTAs
    WhatsApp/Instagram y copyright.
@@ -135,10 +139,30 @@ se cierra al navegar. Sin JS no hay gestión de foco ni cierre con Esc.
 ### Instagram
 
 Los enlaces a Instagram del sitio (nav, botón "Seguir" de Comunidad y footer) apuntan
-al perfil real `https://www.instagram.com/cocogifts.ca/`, y "31K seguidores" es un dato
-real. Las 2 miniaturas de post de la sección Comunidad son imágenes locales del
-proyecto (no se pueden extraer fotos reales de Instagram en este flujo) y no son
-clickeables.
+al perfil real `https://www.instagram.com/cocogifts.ve/`, y "31K seguidores" es un dato
+real.
+
+Los 2 posts de la sección Comunidad son **embeds oficiales de Instagram**
+(`<blockquote class="instagram-media" data-instgrm-permalink="...">`, sin
+`data-instgrm-captioned` para mantenerlos compactos), no imágenes locales:
+
+- Post 1 → `https://www.instagram.com/cocogifts.ve/p/DYw1OBeFoWW/`
+- Post 2 → `https://www.instagram.com/cocogifts.ve/p/DV9XEy_FAyK/`
+
+El script oficial `https://www.instagram.com/embed.js` (cargado una sola vez, al
+final del `body` de `index.html`, con `async` y `defer`) reemplaza cada blockquote
+por el post real embebido (foto y datos incluidos). Es la **segunda excepción
+documentada** a "sin dependencias externas" (ver Convenciones técnicas): la única
+forma de mostrar una publicación específica real sin descargar y alojar su contenido.
+Cada `<blockquote>` incluye internamente un `<a>` a la publicación real, así que si el
+script no carga (bloqueador de anuncios, sin conexión) el contenido de respaldo sigue
+siendo un enlace clickeable a Instagram, no un espacio roto — no depende de JS propio.
+El CSS solo limita el ancho del contenedor (`.comunidad__embed`, `max-width: 360px`)
+para que el embed no se vea desproporcionado; no oculta el contenido de respaldo.
+
+Esta dependencia añade una petición de red externa (embed.js más, si carga, el
+iframe/oEmbed de cada post) que puede afectar el tiempo de carga inicial de la sección
+Comunidad — aceptado como costo de mostrar contenido real de Instagram sin alojarlo.
 
 ## Página catalogo.html
 
@@ -198,7 +222,9 @@ otro. Los CTA a nivel de categoría del mini-catálogo usan el nombre de la cate
 - **BEM** en todo HTML/CSS (`.bloque__elemento--modificador`).
 - **JS vanilla**, mínimo indispensable. Sin librerías, frameworks ni npm. Todo debe
   funcionar razonablemente sin JS (mejora progresiva).
-- **Sin dependencias externas** — única excepción: Google Fonts (Inter / Inter Tight).
+- **Sin dependencias externas** — dos excepciones documentadas: Google Fonts
+  (Inter / Inter Tight) y el script oficial de embeds de Instagram (`embed.js`,
+  ver "Instagram" arriba), necesario para mostrar los 2 posts reales de Comunidad.
 - **Comentarios**: formales y funcionales; explican el porqué de lo no evidente, sin
   narrar historial.
 - **Contenido**: solo copy/estructura que exista en `example-design/`. Lo que falte se
