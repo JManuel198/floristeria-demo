@@ -5,28 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>CocoGifts — Arte floral en Acarigua</title>
 <meta name="description" content="Arte floral hecho a mano en Acarigua — ramos, bouquets con globos y rosas eternas. Cotiza por WhatsApp.">
-<!-- Preconnect a Google Fonts: el @import de las fuentes vive al inicio de css/styles.css. -->
+<!-- Preconnect a Google Fonts: las fuentes se importan al inicio de css/styles.css. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Hoja única (sin @import): un solo ?v=N que subir cuando el CSS no se refresque. -->
+<!-- El parámetro ?v=N invalida la caché al actualizar la hoja de estilos. -->
 <link rel="stylesheet" href="css/styles.css?v=8">
 <script src="js/main.js?v=5" defer></script>
 </head>
 <body>
 
-<!-- Nav compartida con catalogo.html: si se edita aquí, replicar allí (no hay includes en HTML estático). -->
+<!-- Nav duplicada en index.html y catalogo.html: replicar cualquier cambio en ambas. -->
 <header class="nav">
   <div class="nav__barra">
     <a class="nav__logo" href="#hero">Coco<span class="nav__logo-acento">Gifts</span></a>
-    <nav class="nav__enlaces" aria-label="Secciones del sitio">
-      <a class="nav__enlace" href="#hero">Inicio</a>
-      <a class="nav__enlace" href="#nosotras">Nosotras</a>
-      <a class="nav__enlace" href="#catalogo">Catálogo</a>
-      <a class="nav__enlace" href="#galeria">Galería</a>
-      <a class="nav__enlace" href="#comunidad">Comunidad</a>
-      <a class="nav__enlace" href="#contacto">Contacto</a>
-    </nav>
-    <!-- Enlace (no button): el menú abre/cierra por :target, sin JS (ver _nav.css). -->
+    <!-- Abre el menú móvil vía :target (#menu-movil), sin JS. -->
     <a class="nav__hamburguesa" href="#menu-movil" aria-label="Abrir menú">
       <svg width="22" height="16" viewBox="0 0 22 16" fill="currentColor" aria-hidden="true"><rect y="0" width="22" height="2" rx="1"/><rect y="7" width="22" height="2" rx="1"/><rect y="14" width="22" height="2" rx="1"/></svg>
     </a>
@@ -34,7 +26,7 @@
   <div class="nav__menu" id="menu-movil">
     <div class="nav__menu-barra">
       <span class="nav__logo">Coco<span class="nav__logo-acento">Gifts</span></span>
-      <!-- #cerrar-menu no existe: limpia el :target (cierra el menú) sin hacer scroll. -->
+      <!-- #cerrar-menu no existe: limpia el :target y cierra el menú sin scroll. -->
       <a class="nav__cerrar" href="#cerrar-menu" aria-label="Cerrar menú">
         <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true"><line x1="1" y1="1" x2="17" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="17" y1="1" x2="1" y2="17" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </a>
@@ -56,7 +48,7 @@
 
 <main>
 
-<!-- Hero inmersivo: imagen a sangre con el texto superpuesto abajo (sin CTA). -->
+<!-- Hero: imagen a sangre con el título y el subtítulo superpuestos abajo. -->
 <section id="hero" class="hero">
   <img class="hero__imagen" src="assets/img/cocogifts_hero.jpg" alt="Foto destacada: ramo o bouquet de CocoGifts" width="600" height="750">
   <div class="hero__contenido">
@@ -65,10 +57,10 @@
   </div>
 </section>
 
-<!-- Tarjeta de promoción: quitar este bloque cuando no haya promo activa (equivale al showPromo del diseño).
-     TODO: reemplazar el título, la descripción y el [PROMOCIÓN] del enlace por la promo vigente. -->
+<!-- Tarjeta de promoción: eliminar este bloque cuando no haya promo activa.
+     TODO: definir el título, la descripción, la imagen y el [PROMOCIÓN] del enlace. -->
 <aside class="promo">
-  <!-- TODO: reemplazar por la imagen real de la promo vigente. -->
+  <!-- TODO: imagen real de la promo vigente. -->
   <img class="promo__media" src="assets/img/ramo1.jpg" alt="Promoción del mes" width="600" height="600" loading="lazy">
   <div class="promo__contenido">
     <span class="promo__badge">PROMO</span>
@@ -103,9 +95,8 @@
   </header>
 
   <div class="catalogo-tabs">
-    <!-- Sin JS: fila de enlaces-ancla hacia los paneles apilados de abajo.
-         js/main.js convierte esto en tablist ARIA (role, aria-selected,
-         roving tabindex) y deja visible solo el panel activo. -->
+    <!-- Sin JS: enlaces-ancla hacia los paneles apilados. Con js/main.js: tablist
+         ARIA con un solo panel visible. -->
     <div class="catalogo-tabs__lista" aria-label="Categorías del catálogo">
       <a class="catalogo-tabs__tab" href="#catalogo-panel-ramos">Ramos</a>
       <a class="catalogo-tabs__tab" href="#catalogo-panel-globos">Globos</a>
@@ -116,11 +107,11 @@
       <h3 class="catalogo-tabs__categoria-titulo">Ramos</h3>
       <p class="catalogo-tabs__categoria-descripcion">Diseños frescos para cada ocasión.</p>
       <article class="tarjeta-categoria">
-        <!-- Feed horizontal: varias fotos de la categoría, se scrollea dentro de la tarjeta. -->
+        <!-- Feed horizontal de fotos de la categoría (scroll dentro de la tarjeta). -->
         <div class="tarjeta-categoria__feed" tabindex="0" role="group" aria-label="Fotos de Ramos">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo1.jpg" alt="Ramo Primavera" width="600" height="600" loading="lazy">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo2.jpg" alt="Ramo Clásico de Rosas" width="600" height="600" loading="lazy">
-          <!-- PLACEHOLDER: relleno del feed hasta tener más fotos reales de Ramos. -->
+          <!-- Placeholder: pendiente de fotos reales de Ramos. -->
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo3.jpg" alt="Más fotos de Ramos (placeholder)" width="600" height="600" loading="lazy">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo4.jpg" alt="Más fotos de Ramos (placeholder)" width="600" height="600" loading="lazy">
           <span class="tarjeta-categoria__feed-flecha" aria-hidden="true">
@@ -129,14 +120,14 @@
         </div>
         <div class="tarjeta-categoria__dots" aria-hidden="true"></div>
         <div class="tarjeta-categoria__cuerpo">
-          <!-- TODO: precio real pendiente del cliente (example-design no trae precios). -->
+          <!-- TODO: precio pendiente del cliente. -->
           <a class="tarjeta-categoria__cotizar" href="https://wa.me/584120000000?text=Hola%20CocoGifts%2C%20quiero%20cotizar%20de%20la%20categor%C3%ADa%3A%20Ramos." target="_blank" rel="noopener">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="currentColor"/></svg>
             Cotizar por WhatsApp
           </a>
         </div>
       </article>
-      <!-- "Ver más": enlace directo a la categoría en el catálogo completo (catalogo.html lee el hash). -->
+      <!-- Enlace a la categoría en el catálogo completo (catalogo.html lee el hash). -->
       <a class="catalogo-tabs__ver-mas" href="catalogo.html#ramos">
         Ver más de Ramos
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4.5 2.5L8 6l-3.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -147,11 +138,11 @@
       <h3 class="catalogo-tabs__categoria-titulo">Globos</h3>
       <p class="catalogo-tabs__categoria-descripcion">Bouquets con globos que sorprenden.</p>
       <article class="tarjeta-categoria">
-        <!-- Feed horizontal: varias fotos de la categoría, se scrollea dentro de la tarjeta. -->
+        <!-- Feed horizontal de fotos de la categoría (scroll dentro de la tarjeta). -->
         <div class="tarjeta-categoria__feed" tabindex="0" role="group" aria-label="Fotos de Globos">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo1.jpg" alt="Bouquet Globo &amp; Flores" width="600" height="600" loading="lazy">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo2.jpg" alt="Combo Sorpresa" width="600" height="600" loading="lazy">
-          <!-- PLACEHOLDER: relleno del feed hasta tener más fotos reales de Globos. -->
+          <!-- Placeholder: pendiente de fotos reales de Globos. -->
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo3.jpg" alt="Más fotos de Globos (placeholder)" width="600" height="600" loading="lazy">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo4.jpg" alt="Más fotos de Globos (placeholder)" width="600" height="600" loading="lazy">
           <span class="tarjeta-categoria__feed-flecha" aria-hidden="true">
@@ -160,14 +151,14 @@
         </div>
         <div class="tarjeta-categoria__dots" aria-hidden="true"></div>
         <div class="tarjeta-categoria__cuerpo">
-          <!-- TODO: precio real pendiente del cliente. -->
+          <!-- TODO: precio pendiente del cliente. -->
           <a class="tarjeta-categoria__cotizar" href="https://wa.me/584120000000?text=Hola%20CocoGifts%2C%20quiero%20cotizar%20de%20la%20categor%C3%ADa%3A%20Globos." target="_blank" rel="noopener">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="currentColor"/></svg>
             Cotizar por WhatsApp
           </a>
         </div>
       </article>
-      <!-- "Ver más": enlace directo a la categoría en el catálogo completo (catalogo.html lee el hash). -->
+      <!-- Enlace a la categoría en el catálogo completo (catalogo.html lee el hash). -->
       <a class="catalogo-tabs__ver-mas" href="catalogo.html#globos">
         Ver más de Globos
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4.5 2.5L8 6l-3.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -178,11 +169,11 @@
       <h3 class="catalogo-tabs__categoria-titulo">Rosas Eternas</h3>
       <p class="catalogo-tabs__categoria-descripcion">Duran hasta un año, siempre frescas.</p>
       <article class="tarjeta-categoria">
-        <!-- Feed horizontal: varias fotos de la categoría, se scrollea dentro de la tarjeta. -->
+        <!-- Feed horizontal de fotos de la categoría (scroll dentro de la tarjeta). -->
         <div class="tarjeta-categoria__feed" tabindex="0" role="group" aria-label="Fotos de Rosas Eternas">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo1.jpg" alt="Caja Mini Rosa Eterna" width="600" height="600" loading="lazy">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo2.jpg" alt="Caja Premium" width="600" height="600" loading="lazy">
-          <!-- PLACEHOLDER: relleno del feed hasta tener más fotos reales de Rosas Eternas. -->
+          <!-- Placeholder: pendiente de fotos reales de Rosas Eternas. -->
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo5.jpg" alt="Más fotos de Rosas Eternas (placeholder)" width="600" height="600" loading="lazy">
           <img class="tarjeta-categoria__feed-img" src="assets/img/ramo6.jpg" alt="Más fotos de Rosas Eternas (placeholder)" width="600" height="600" loading="lazy">
           <span class="tarjeta-categoria__feed-flecha" aria-hidden="true">
@@ -191,14 +182,14 @@
         </div>
         <div class="tarjeta-categoria__dots" aria-hidden="true"></div>
         <div class="tarjeta-categoria__cuerpo">
-          <!-- TODO: precio real pendiente del cliente. -->
+          <!-- TODO: precio pendiente del cliente. -->
           <a class="tarjeta-categoria__cotizar" href="https://wa.me/584120000000?text=Hola%20CocoGifts%2C%20quiero%20cotizar%20de%20la%20categor%C3%ADa%3A%20Rosas%20Eternas." target="_blank" rel="noopener">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.149-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.71.306 1.263.489 1.694.625.712.227 1.36.195 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.29.173-1.414-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z" fill="currentColor"/></svg>
             Cotizar por WhatsApp
           </a>
         </div>
       </article>
-      <!-- "Ver más": enlace directo a la categoría en el catálogo completo (catalogo.html lee el hash; su id es 'eternas'). -->
+      <!-- Enlace a la categoría en el catálogo completo (el id de Rosas Eternas es 'eternas'). -->
       <a class="catalogo-tabs__ver-mas" href="catalogo.html#eternas">
         Ver más de Rosas Eternas
         <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M4.5 2.5L8 6l-3.5 3.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -238,7 +229,7 @@
 
 </main>
 
-<!-- Footer compartido con catalogo.html: si se edita aquí, replicar allí. -->
+<!-- Footer duplicado en index.html y catalogo.html: replicar cualquier cambio en ambas. -->
 <footer id="contacto" class="footer">
   <div class="footer__contenido">
     <div class="footer__grupo">
@@ -261,9 +252,9 @@
           <p class="footer__dato-secundario">Acarigua, Edo. Portuguesa, Venezuela</p>
         </div>
       </div>
-      <!-- TODO: sustituir por mapa real (imagen estática o embed) cuando el cliente lo defina. -->
+      <!-- TODO: mapa real (imagen estática o embed) pendiente del cliente. -->
       <div class="footer__mapa">
-        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3934.3581021048144!2d-69.21721922424832!3d9.564366680377592!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e7dc1c6ccf69421%3A0x4cb394b4f704f28f!2sCocogifts!5e0!3m2!1ses!2sbr!4v1784639754582!5m2!1ses!2sbr" 
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3934.3581021048144!2d-69.21721922424832!3d9.564366680377592!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8e7dc1c6ccf69421%3A0x4cb394b4f704f28f!2sCocogifts!5e0!3m2!1ses!2sbr!4v1784639754582!5m2!1ses!2sbr"
         title="Mapa de ubicación de CocoGifts"
         allowfullscreen 
         loading="lazy" 

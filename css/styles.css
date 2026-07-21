@@ -1,25 +1,20 @@
 /* ============================================================
-   CocoGifts — hoja de estilos única (antes 16 parciales + main.css con @import).
-   Consolidada para eliminar la cascada de peticiones y los 18 números de
-   versión de cache-busting: ahora un solo ?v=N en el <link> de cada HTML.
-   Orden de cascada preservado: BASE → SECTIONS → COMPONENTS.
-   NOTA: el @import de Google Fonts debe seguir siendo la primera regla del
-   archivo (CSS exige @import antes de cualquier otra regla).
+   CocoGifts — hoja de estilos única.
+   Orden de cascada: BASE → SECTIONS → COMPONENTS.
+   El @import de Google Fonts es la primera regla del archivo
+   (requisito de CSS: los @import van antes de cualquier otra regla).
    ============================================================ */
 
 
 /* === BASE: fonts === */
 
-/* Única dependencia externa permitida: Inter + Inter Tight, tal como las usa
-   example-design. El @import vive aquí (y no como <link> en el HTML) para que
-   toda la cadena tipográfica quede declarada en CSS; los <link rel="preconnect">
-   del HTML compensan la latencia extra del encadenado de @imports. */
+/* Inter (cuerpo) e Inter Tight (titulares). Única dependencia externa;
+   los <link rel="preconnect"> del HTML reducen la latencia de carga. */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Inter+Tight:wght@600;700;800&display=swap');
 
 /* === BASE: variables === */
 
-/* Tokens de diseño extraídos de example-design/CocoGifts.dc.html.
-   No cambiar valores sin nueva referencia aprobada (ver CLAUDE.md). */
+/* Tokens de diseño. Los colores de marca no se cambian sin referencia aprobada. */
 :root {
   --fuente-cuerpo: 'Inter', sans-serif;
   --fuente-titulos: 'Inter Tight', sans-serif;
@@ -42,31 +37,34 @@
   --color-borde: #F0EDEA;
   --color-borde-suave: #F5F2EF;
 
-  /* REGLA FIJA del proyecto: este verde es exclusivo de acciones de WhatsApp
-     (burbuja, "Cotizar por WhatsApp", cualquier enlace wa.me). No usarlo en
-     ningún otro elemento ni sustituirlo por otro verde. */
+  /* Verde exclusivo de acciones de WhatsApp (burbuja, botones "Cotizar",
+     enlaces wa.me). No usar en ningún otro elemento. */
   --color-whatsapp: #25D366;
   --color-whatsapp-hover: #1EBE5A;
 
   --radio-tarjeta: 16px;
   --radio-boton: 12px;
+
+  /* Ancho máximo del contenido: centra las secciones en pantallas anchas
+     manteniendo el ancho de la composición móvil. */
+  --max-width-contenido: 520px;
 }
 
 /* === BASE: reset === */
 
-/* Reset mínimo: solo lo que este proyecto necesita, no un reset genérico completo. */
+/* Reset mínimo acotado a lo que usa el proyecto. */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-/* Los enlaces-ancla (tabs sin JS, menú futuro) saltan con desplazamiento suave. */
+/* Desplazamiento suave en los saltos de ancla. */
 html {
   scroll-behavior: smooth;
 }
 
-/* Márgenes a cero: cada componente BEM declara su propio espaciado explícito. */
+/* Cada componente declara su propio espaciado. */
 body,
 h1, h2, h3, h4,
 p,
@@ -93,15 +91,14 @@ button {
   cursor: pointer;
 }
 
-/* El atributo hidden debe ganar SIEMPRE: varios componentes (tabs, "Ver más")
-   usan display:flex/grid, que de otro modo pisaría el display:none nativo. */
+/* Prevalece sobre el display:flex/grid de los paneles de tabs ocultos. */
 [hidden] {
   display: none !important;
 }
 
 /* === BASE: tipografia === */
 
-/* Tipografía global según example-design: Inter para cuerpo, Inter Tight para titulares. */
+/* Inter para cuerpo, Inter Tight para titulares. */
 body {
   font-family: var(--fuente-cuerpo);
   font-size: 1rem;
@@ -117,8 +114,7 @@ h1, h2, h3, h4 {
   color: var(--color-texto);
 }
 
-/* Color de enlace por defecto del diseño (rosa de marca). Los botones/CTA
-   lo sobreescriben con sus propios colores. */
+/* Enlaces en rosa de marca; los botones/CTA definen su propio color. */
 a {
   color: var(--color-acento);
   text-decoration: none;
@@ -130,12 +126,13 @@ a:hover {
 
 /* === SECTIONS: hero === */
 
-/* Hero de portada + banner de promoción (el bloque .promo va justo debajo
-   del hero en el flujo, como en example-design). */
+/* Hero de portada, con la tarjeta .promo justo debajo en el flujo. */
 
 .hero {
   position: relative;
-  isolation: isolate; /* contiene el apilado del scrim y el contenido sobre la imagen */
+  isolation: isolate; /* aísla el apilado del scrim y el contenido sobre la imagen */
+  max-width: var(--max-width-contenido);
+  margin: 0 auto;
 }
 
 .hero__imagen {
@@ -145,8 +142,7 @@ a:hover {
   object-fit: cover;
 }
 
-/* Scrim: degradado oscuro de abajo hacia arriba para que el texto blanco sea
-   legible sobre cualquier foto (las actuales son placeholders claros). */
+/* Scrim: degradado oscuro inferior para legibilidad del texto blanco. */
 .hero::after {
   content: "";
   position: absolute;
@@ -159,7 +155,7 @@ a:hover {
   pointer-events: none;
 }
 
-/* Contenido superpuesto sobre la imagen (abajo), no al lado ni debajo. */
+/* Título y subtítulo superpuestos en la parte inferior de la imagen. */
 .hero__contenido {
   position: absolute;
   inset: auto 0 0 0;
@@ -182,27 +178,28 @@ a:hover {
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Tarjeta de promoción: imagen a la izquierda (ancho proporcional controlado) y el
-   resto del contenido a la derecha (badge, título, texto y CTA), con flexbox. */
+/* Tarjeta de promoción: imagen a la izquierda, contenido a la derecha. */
 .promo {
   display: flex;
   align-items: stretch;
-  margin: 14px 20px;
+  /* Conserva el gutter de 20px en móvil y se centra con tope fijo en pantallas anchas. */
+  width: min(var(--max-width-contenido), calc(100% - 40px));
+  margin: 14px auto;
   background: var(--color-acento-suave);
   border: 1px solid var(--color-acento-borde);
   border-radius: 16px;
-  overflow: hidden; /* recorta las esquinas de la imagen de la izquierda */
+  overflow: hidden;
 }
 
 .promo__media {
-  flex: 0 0 38%;     /* contenedor de ancho proporcional controlado */
+  flex: 0 0 38%;
   min-width: 116px;
-  object-fit: cover; /* la imagen llena su columna (que se estira a la altura del texto) */
+  object-fit: cover;
 }
 
 .promo__contenido {
   flex: 1;
-  min-width: 0;      /* permite que el texto haga wrap sin desbordar el flex */
+  min-width: 0; /* permite el wrap del texto sin desbordar el flex */
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -233,8 +230,7 @@ a:hover {
   color: var(--color-acento-oscuro);
 }
 
-/* CTA verde: mismo lenguaje que los demás botones de WhatsApp del sitio
-   (radio var(--radio-boton), padding 13/20, min 48px, peso 700, 15px). */
+/* CTA de WhatsApp. */
 .promo__cta {
   display: inline-flex;
   align-items: center;
@@ -253,48 +249,16 @@ a:hover {
 
 .promo__cta:hover {
   background: var(--color-whatsapp-hover);
-  color: #FFFFFF; /* evita que el hover rosa global de <a> pise el blanco */
-}
-
-@media (min-width: 1024px) {
-  /* El mockup aprobado es solo móvil; en desktop el hero se centra como una
-     tarjeta ancha (imagen 16/9) con el texto superpuesto abajo. */
-  .hero {
-    max-width: 1080px;
-    margin: 0 auto;
-    border-radius: var(--radio-tarjeta);
-    overflow: hidden;
-  }
-
-  .hero__imagen {
-    aspect-ratio: 16 / 9;
-  }
-
-  .hero__contenido {
-    max-width: 640px;
-    padding: 40px;
-  }
-
-  .hero__titulo {
-    font-size: 44px;
-  }
-
-  .promo {
-    max-width: 1080px;
-    margin: 16px auto 8px;
-  }
-
-  /* En desktop la imagen de la promo pasa a un ancho fijo (no un 38% enorme). */
-  .promo__media {
-    flex: 0 0 320px;
-  }
+  color: #FFFFFF;
 }
 
 /* === SECTIONS: nosotras === */
 
-/* Sección "Nosotras": presentación de Maru y Ana. */
+/* Presentación de las fundadoras. */
 .nosotras {
   padding: 44px 20px 8px;
+  max-width: var(--max-width-contenido);
+  margin: 0 auto;
 }
 
 .nosotras__titulo {
@@ -334,37 +298,15 @@ a:hover {
   color: var(--color-acento);
 }
 
-@media (min-width: 1024px) {
-  .nosotras {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 40px;
-    align-items: center;
-    max-width: 1080px;
-    margin: 0 auto;
-    padding-top: 64px;
-  }
-
-  .nosotras__titulo {
-    grid-column: 1 / -1;
-    margin-bottom: 0;
-  }
-
-  .nosotras__foto {
-    margin-bottom: 0;
-  }
-}
-
 /* === SECTIONS: catalogo-completo === */
 
-/* Página catalogo.html: catálogo completo con tabs por categoría.
-   La barra de tabs, los paneles y el grid de productos reutilizan el componente
-   .catalogo-tabs (mismo patrón visual y ARIA que el mini-catálogo de la home);
-   aquí solo va la envoltura de página (encabezado) y los ajustes de desktop.
-   El padding horizontal vive en los elementos internos (encabezado, lista y
-   panel), no en la sección, para no duplicarlo con el del componente. */
+/* Envoltura de página de catalogo.html. Las tabs, paneles y grid de productos
+   reutilizan el componente .catalogo-tabs. El padding horizontal vive en los
+   elementos internos (encabezado, lista, panel), no en la sección. */
 .catalogo-completo {
   padding: 32px 0 8px;
+  max-width: var(--max-width-contenido);
+  margin: 0 auto;
 }
 
 .catalogo-completo__encabezado {
@@ -384,30 +326,16 @@ a:hover {
   margin-bottom: 12px;
 }
 
-@media (min-width: 1024px) {
-  .catalogo-completo {
-    max-width: 1080px;
-    margin: 0 auto;
-  }
-
-  /* Catálogo completo: más columnas donde el espacio lo permite (3 en desktop).
-     El selector descendiente gana por especificidad al 1fr 1fr base del componente. */
-  .catalogo-completo .catalogo-tabs__productos {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 /* === COMPONENTS: nav === */
 
-/* Nav fija superior + menú móvil a pantalla completa.
-   El menú abre y cierra SIN JS con el patrón :target: la hamburguesa es un
-   enlace a #menu-movil y el botón de cerrar apunta a un fragmento inexistente
-   (#cerrar-menu), lo que limpia el :target sin provocar scroll. Los enlaces del
-   menú cambian el hash a la sección destino, así que el overlay se cierra solo
-   al navegar. Limitación asumida y aceptada: sin JS no hay gestión de foco ni
-   cierre con Esc; se prefiere cero JS a un menú que dependa de script. */
+/* Nav fija superior con menú a pantalla completa.
+   El menú abre y cierra sin JS con el patrón :target: la hamburguesa enlaza a
+   #menu-movil y el botón de cerrar a un fragmento inexistente (#cerrar-menu),
+   que limpia el :target sin provocar scroll. Los enlaces del menú cambian el
+   hash a su sección, así que el overlay se cierra al navegar. Sin JS no hay
+   gestión de foco ni cierre con Esc. */
 
-/* Compensación de la barra fija (56px) y margen para todos los saltos de ancla. */
+/* Compensa la altura de la nav fija en el flujo y en los saltos de ancla. */
 body {
   padding-top: 56px;
 }
@@ -432,6 +360,8 @@ body {
   justify-content: space-between;
   height: 56px;
   padding: 0 16px;
+  max-width: var(--max-width-contenido);
+  margin: 0 auto;
 }
 
 .nav__logo {
@@ -448,11 +378,6 @@ body {
 
 .nav__logo-acento {
   color: var(--color-acento);
-}
-
-/* Enlaces inline: solo desktop; en mobile navega el menú a pantalla completa. */
-.nav__enlaces {
-  display: none;
 }
 
 .nav__hamburguesa {
@@ -567,42 +492,17 @@ body {
   font-size: 14px;
 }
 
-@media (min-width: 1024px) {
-  .nav__barra {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding: 0 20px;
-  }
-
-  .nav__hamburguesa {
-    display: none;
-  }
-
-  .nav__enlaces {
-    display: flex;
-    gap: 22px;
-  }
-
-  .nav__enlace {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--color-texto);
-  }
-
-  .nav__enlace:hover {
-    color: var(--color-acento);
-  }
-}
-
 /* === COMPONENTS: catalogo-tabs === */
 
 /* Catálogo con tabs por categoría.
-   Sin JS: los paneles quedan apilados y visibles (patrón original de example-design)
-   y la barra de tabs funciona como fila de enlaces-ancla. js/catalogo-tabs.js añade
-   la clase .catalogo-tabs--js y a partir de ahí aplican los estilos de "modo tabs". */
+   Sin JS: los paneles quedan apilados y la barra de tabs es una fila de
+   enlaces-ancla. js/main.js añade la clase .catalogo-tabs--js y activa el
+   modo tabs (un solo panel visible). */
 
 .catalogo {
   padding: 44px 0 8px;
+  max-width: var(--max-width-contenido);
+  margin: 0 auto;
 }
 
 .catalogo__encabezado {
@@ -630,8 +530,6 @@ body {
   padding: 0 14px;
   border: 1.5px solid var(--color-acento-hover);
   border-radius: var(--radio-boton);
-  /* Tono hover (más oscuro) como color de texto, igual que en example-design:
-     el verde base no contrasta lo suficiente sobre blanco para texto. */
   color: var(--color-acento);
   font-weight: 700;
   font-size: 13px;
@@ -650,8 +548,7 @@ body {
   margin-bottom: 20px;
 }
 
-/* Barra de tabs: scrolleable en horizontal si no caben en pantalla.
-   Scrollbar oculta, mismo patrón "hscroll" que usa example-design en sus carruseles. */
+/* Barra de tabs con scroll horizontal y scrollbar oculta. */
 .catalogo-tabs__lista {
   display: flex;
   overflow-x: auto;
@@ -661,9 +558,7 @@ body {
   border-bottom: 1px solid var(--color-borde);
 }
 
-/* Solo en catalogo.html: pegada justo debajo de la nav fija (56px de alto,
-   igual en mobile y desktop). Fondo + z-index propios para que las tarjetas
-   no se transparenten por debajo al hacer scroll. */
+/* En catalogo.html la barra queda fija bajo la nav al hacer scroll. */
 .catalogo-completo .catalogo-tabs__lista {
   position: sticky;
   top: 56px;
@@ -693,15 +588,14 @@ body {
   color: var(--color-texto);
 }
 
-/* Outline interior: el contenedor con overflow recortaría un outline normal. */
+/* Outline interior: el contenedor con overflow recortaría uno normal. */
 .catalogo-tabs__tab:focus-visible {
   outline: 2px solid var(--color-acento);
   outline-offset: -2px;
   border-radius: 8px;
 }
 
-/* Tab activa: color + barra indicadora inferior — doble señal, no solo color,
-   para que la selección sea perceptible sin distinguir tonos. */
+/* Tab activa: color más barra indicadora inferior (doble señal, no solo color). */
 .catalogo-tabs__tab::after {
   content: "";
   position: absolute;
@@ -727,7 +621,7 @@ body {
 
 .catalogo-tabs__panel {
   padding: 20px 20px 0;
-  scroll-margin-top: 64px; /* mismo margen de ancla que usa el diseño (nav fija futura) */
+  scroll-margin-top: 64px; /* margen de ancla bajo la nav fija */
 }
 
 .catalogo-tabs__categoria-titulo {
@@ -736,8 +630,8 @@ body {
   margin-bottom: 2px;
 }
 
-/* Con JS activo el título de categoría duplica visualmente la tab activa:
-   se conserva solo para lectores de pantalla y el outline del documento. */
+/* Con JS, el título de categoría duplica la tab activa: se oculta a la vista
+   y se conserva para lectores de pantalla. */
 .catalogo-tabs--js .catalogo-tabs__categoria-titulo {
   position: absolute;
   width: 1px;
@@ -755,10 +649,10 @@ body {
   margin-bottom: 14px;
 }
 
+/* Grid de productos: 2 columnas en todos los tamaños. */
 .catalogo-tabs__productos {
   display: grid;
-  /* 2 columnas en todos los tamaños, mobile incluido. */
-  grid-template-columns: 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   align-items: start;
 }
@@ -784,22 +678,9 @@ body {
   color: #FFFFFF;
 }
 
-@media (min-width: 1024px) {
-  /* El diseño aprobado es un mockup móvil (430px): en desktop solo se centra
-     la sección con más aire. El grid ya es de 2 columnas en la regla base. */
-  .catalogo {
-    max-width: 760px;
-    margin: 0 auto;
-  }
-
-  .catalogo__titulo {
-    font-size: 28px;
-  }
-}
-
 /* === COMPONENTS: tarjeta-categoria === */
 
-/* Tarjeta de producto dentro de un panel de categoría del catálogo. */
+/* Tarjeta de producto dentro de un panel de categoría. */
 .tarjeta-categoria {
   display: flex;
   flex-direction: column;
@@ -815,13 +696,10 @@ body {
   object-fit: cover;
 }
 
-/* Carrusel HORIZONTAL de la tarjeta de categoría del mini-catálogo (index.html):
-   se swipea de lado para ver más fotos de la categoría, tipo publicación de
-   Instagram. scroll-snap por foto, sin JS. En mobile cada foto ocupa todo el
-   ancho de la tarjeta (imagen protagonista); en desktop se ven varias a la vez
-   (ver @media más abajo). Scrollbar oculta, mismo patrón que los carruseles. */
+/* Feed horizontal de fotos del mini-catálogo (index.html): scroll-snap por foto,
+   una por vista en móvil y varias en pantallas anchas. Scrollbar oculta. */
 .tarjeta-categoria__feed {
-  position: relative; /* contenedor de referencia para la flecha overlay */
+  position: relative; /* referencia para la flecha overlay */
   display: flex;
   flex-wrap: nowrap;
   overflow-x: auto;
@@ -835,27 +713,23 @@ body {
   display: none;
 }
 
-/* Contenedor scrolleable enfocable por teclado (tabindex=0): marca el foco. */
+/* El feed es enfocable por teclado (tabindex=0). */
 .tarjeta-categoria__feed:focus-visible {
   outline: 2px solid var(--color-acento);
   outline-offset: -2px;
 }
 
 .tarjeta-categoria__feed-img {
-  flex: 0 0 100%; /* una foto por vista en mobile */
+  flex: 0 0 100%; /* una foto por vista en móvil */
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
   scroll-snap-align: start;
-  /* Evita que un swipe rápido salte de largo dos fotos: fuerza a que el
-     snap se detenga en cada imagen, no solo en la más cercana al soltar. */
-  scroll-snap-stop: always;
+  scroll-snap-stop: always; /* el snap se detiene en cada foto */
 }
 
-/* Flecha "desliza para ver más": overlay fijo sobre el feed (no hijo en flujo,
-   por eso no se mueve con el scroll horizontal del contenido). js/main.js le
-   agrega el modificador --interactuado, scoped a este feed, en su primer
-   scroll; el fade-out lo hace este CSS. */
+/* Flecha "desliza para ver más": overlay fijo sobre el feed. js/main.js le
+   agrega el modificador --interactuado en el primer scroll para desvanecerla. */
 .tarjeta-categoria__feed-flecha {
   position: absolute;
   top: 50%;
@@ -870,7 +744,7 @@ body {
   border-radius: 50%;
   background: rgba(0, 0, 0, 0.35);
   color: #FFFFFF;
-  pointer-events: none; /* no debe interceptar el gesto de swipe */
+  pointer-events: none; /* no intercepta el gesto de swipe */
   opacity: 1;
   transition: opacity 0.3s ease;
 }
@@ -879,8 +753,7 @@ body {
   opacity: 0;
 }
 
-/* Dots: uno por foto del feed, generados en js/main.js a partir de las
-   imágenes reales (evita desincronizar un conteo fijo en el HTML). */
+/* Dots: uno por foto del feed, generados en js/main.js. */
 .tarjeta-categoria__dots {
   display: flex;
   justify-content: center;
@@ -926,8 +799,8 @@ body {
   justify-content: center;
   gap: 8px;
   min-height: 48px;
-  padding: 13px 20px; /* padding consistente con los demás CTA verdes del sitio */
-  margin-top: auto; /* el CTA queda alineado abajo aunque las descripciones varíen de largo */
+  padding: 13px 20px;
+  margin-top: auto; /* alinea el CTA abajo aunque varíe el largo de la descripción */
   background: var(--color-whatsapp);
   border-radius: var(--radio-boton);
   color: #FFFFFF;
@@ -938,12 +811,11 @@ body {
 
 .tarjeta-categoria__cotizar:hover {
   background: var(--color-whatsapp-hover);
-  color: #FFFFFF; /* evita que el hover rosa global de <a> pise el blanco */
+  color: #FFFFFF;
 }
 
+/* En pantallas anchas el feed muestra varias fotos a la vez. */
 @media (min-width: 1024px) {
-  /* En desktop el carrusel del mini-catálogo muestra VARIAS fotos a la vez
-     (no una sola forzada): cada foto pasa a un ancho fijo y aparece un gap. */
   .tarjeta-categoria__feed {
     gap: 12px;
   }
@@ -955,9 +827,11 @@ body {
 
 /* === COMPONENTS: galeria === */
 
-/* Galería de trabajos reales: grid de fotos cuadradas. */
+/* Galería de trabajos: grid de fotos cuadradas. */
 .galeria {
   padding: 44px 20px 8px;
+  max-width: var(--max-width-contenido);
+  margin: 0 auto;
 }
 
 .galeria__titulo {
@@ -985,23 +859,13 @@ body {
   border-radius: 14px;
 }
 
-@media (min-width: 1024px) {
-  .galeria {
-    max-width: 1080px;
-    margin: 0 auto;
-    padding-top: 64px;
-  }
-
-  .galeria__grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-}
-
 /* === COMPONENTS: comunidad === */
 
-/* Tarjeta de comunidad de Instagram (31K seguidores + posts recientes). */
+/* Tarjeta de comunidad de Instagram. */
 .comunidad {
   padding: 44px 20px 8px;
+  max-width: var(--max-width-contenido);
+  margin: 0 auto;
 }
 
 .comunidad__tarjeta {
@@ -1070,21 +934,18 @@ body {
   color: #FFFFFF;
 }
 
-@media (min-width: 1024px) {
-  .comunidad {
-    max-width: 760px;
-    margin: 0 auto;
-    padding-top: 64px;
-  }
-}
-
 /* === COMPONENTS: footer === */
 
-/* Footer formal: marca, enlaces, horario/ubicación con mapa y CTAs de contacto. */
+/* Footer: marca, horario y ubicación con mapa, y CTAs de contacto. */
 .footer {
   background: var(--color-fondo-neutro);
   padding: 44px 20px 28px;
   margin-top: 8px;
+}
+
+.footer__contenido {
+  max-width: var(--max-width-contenido);
+  margin: 0 auto;
 }
 
 .footer__grupo {
@@ -1143,10 +1004,10 @@ body {
 }
 
 .footer__mapa {
-  border-radius: var(--radius-lg);
+  border-radius: var(--radio-tarjeta);
   overflow: hidden;
   height: 170px;
-  border: 1px solid var(--color-border);
+  border: 1px solid var(--color-borde);
 }
 .footer__mapa iframe {
   width: 100%;
@@ -1201,6 +1062,8 @@ body {
 }
 
 .footer__legal {
+  max-width: var(--max-width-contenido);
+  margin: 0 auto;
   border-top: 1px solid rgba(0, 0, 0, 0.08);
   padding-top: 16px;
   text-align: center;
@@ -1211,31 +1074,13 @@ body {
   color: var(--color-texto-mute);
 }
 
-@media (min-width: 1024px) {
-  .footer__contenido {
-    display: grid;
-    /* 3 grupos: marca, horario/ubicación y contacto (el grupo de enlaces se
-       quitó por redundar con el menú hamburguesa). */
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-    max-width: 1080px;
-    margin: 0 auto;
-  }
-
-  .footer__legal {
-    max-width: 1080px;
-    margin: 0 auto;
-  }
-}
-
 /* === COMPONENTS: whatsapp-burbuja === */
 
-/* Burbuja flotante de WhatsApp: siempre visible, esquina inferior derecha. */
+/* Burbuja flotante de WhatsApp, siempre visible en la esquina inferior derecha. */
 .whatsapp-burbuja {
   position: fixed;
   right: 20px;
-  /* safe-area: que no quede bajo la barra de gestos en iOS */
-  bottom: calc(24px + env(safe-area-inset-bottom));
+  bottom: calc(24px + env(safe-area-inset-bottom)); /* respeta la safe-area en iOS */
   z-index: 60;
   display: flex;
   align-items: center;
@@ -1244,13 +1089,11 @@ body {
   height: 56px;
   background: var(--color-whatsapp);
   border-radius: 50%;
-  /* Sombra en dos capas: elevación más pulida y menos "dura" que una sola. */
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16), 0 2px 6px rgba(0, 0, 0, 0.12);
   color: #FFFFFF;
   transition: background-color 0.15s ease, box-shadow 0.15s ease;
 }
 
-/* Ícono centrado y con tamaño óptico dentro del círculo (el SVG viene a 28px). */
 .whatsapp-burbuja svg {
   width: 26px;
   height: 26px;

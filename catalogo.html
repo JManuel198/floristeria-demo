@@ -4,30 +4,22 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Catálogo completo — CocoGifts</title>
-<meta name="description" content="Catálogo completo de CocoGifts: ramos, bouquets con globos, rosas eternas y arreglos para ocasiones especiales. Cotiza por WhatsApp.">
+<meta name="description" content="Catálogo completo de CocoGifts: ramos, bouquets con globos y rosas eternas. Cotiza por WhatsApp.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!-- Hoja única (sin @import): un solo ?v=N que subir cuando el CSS no se refresque. -->
+<!-- El parámetro ?v=N invalida la caché al actualizar la hoja de estilos. -->
 <link rel="stylesheet" href="css/styles.css?v=8">
-<!-- Mejora progresiva: sin JS los paneles quedan apilados y la barra es una fila
-     de enlaces-ancla. js/main.js los convierte en tabs ARIA y lee el hash
-     (catalogo.html#ramos) para abrir esa categoría de entrada. -->
+<!-- Sin JS: paneles apilados y barra de enlaces-ancla. Con js/main.js: tabs ARIA
+     que además leen el hash (catalogo.html#ramos) para abrir esa categoría. -->
 <script src="js/main.js?v=5" defer></script>
 </head>
 <body>
 
-<!-- Nav compartida con index.html (enlaces apuntando a la home): mantener en sincronía. -->
+<!-- Nav duplicada en index.html y catalogo.html: replicar cualquier cambio en ambas. -->
 <header class="nav">
   <div class="nav__barra">
     <a class="nav__logo" href="index.html">Coco<span class="nav__logo-acento">Gifts</span></a>
-    <nav class="nav__enlaces" aria-label="Secciones del sitio">
-      <a class="nav__enlace" href="index.html">Inicio</a>
-      <a class="nav__enlace" href="index.html#nosotras">Nosotras</a>
-      <a class="nav__enlace" href="catalogo.html" aria-current="page">Catálogo</a>
-      <a class="nav__enlace" href="index.html#galeria">Galería</a>
-      <a class="nav__enlace" href="index.html#comunidad">Comunidad</a>
-      <a class="nav__enlace" href="index.html#contacto">Contacto</a>
-    </nav>
+    <!-- Abre el menú móvil vía :target (#menu-movil), sin JS. -->
     <a class="nav__hamburguesa" href="#menu-movil" aria-label="Abrir menú">
       <svg width="22" height="16" viewBox="0 0 22 16" fill="currentColor" aria-hidden="true"><rect y="0" width="22" height="2" rx="1"/><rect y="7" width="22" height="2" rx="1"/><rect y="14" width="22" height="2" rx="1"/></svg>
     </a>
@@ -63,10 +55,8 @@
          real completo está pendiente del cliente. -->
   </div>
 
-  <!-- Mismo componente .catalogo-tabs que el mini-catálogo de la home: sin JS son
-       enlaces-ancla + paneles apilados; con JS, tabs ARIA con un panel visible.
-       Los id de panel (ramos/globos/eternas) son el destino del hash de
-       deep-link (catalogo.html#ramos). -->
+  <!-- Componente .catalogo-tabs (compartido con el mini-catálogo de index.html).
+       Los id de panel (ramos/globos/eternas) son el destino del hash de deep-link. -->
   <div class="catalogo-tabs">
     <div class="catalogo-tabs__lista" aria-label="Categorías del catálogo">
       <a class="catalogo-tabs__tab" href="#ramos">Ramos</a>
@@ -78,7 +68,6 @@
       <h2 class="catalogo-tabs__categoria-titulo">Ramos</h2>
       <p class="catalogo-tabs__categoria-descripcion">Diseños frescos para cada ocasión.</p>
       <div class="catalogo-tabs__productos">
-        <!-- Producto de muestra de example-design (copy real de referencia). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo2.jpg" alt="Ramo Primavera" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -89,7 +78,6 @@
             </a>
           </div>
         </article>
-        <!-- Producto de muestra de example-design (copy real de referencia). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo3.jpg" alt="Ramo Clásico de Rosas" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -100,7 +88,6 @@
             </a>
           </div>
         </article>
-        <!-- Producto de muestra ilustrativo para la demo (contenido no final, catálogo real pendiente del cliente). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo4.jpg" alt="Ramo Tropical" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -111,7 +98,6 @@
             </a>
           </div>
         </article>
-        <!-- Producto de muestra ilustrativo para la demo (contenido no final, catálogo real pendiente del cliente). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo5.jpg" alt="Ramo Girasoles" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -122,7 +108,6 @@
             </a>
           </div>
         </article>
-        <!-- Producto de muestra ilustrativo para la demo (contenido no final, catálogo real pendiente del cliente). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo6.jpg" alt="Ramo Mixto Pastel" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -140,7 +125,6 @@
       <h2 class="catalogo-tabs__categoria-titulo">Globos</h2>
       <p class="catalogo-tabs__categoria-descripcion">Bouquets con globos que sorprenden.</p>
       <div class="catalogo-tabs__productos">
-        <!-- Producto de muestra de example-design (copy real de referencia). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo3.jpg" alt="Bouquet Globo &amp; Flores" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -151,7 +135,6 @@
             </a>
           </div>
         </article>
-        <!-- Producto de muestra de example-design (copy real de referencia). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo2.jpg" alt="Combo Sorpresa" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -162,7 +145,6 @@
             </a>
           </div>
         </article>
-        <!-- Producto de muestra ilustrativo para la demo (contenido no final, catálogo real pendiente del cliente). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo1.jpg" alt="Globo Cumpleaños Feliz" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -173,7 +155,6 @@
             </a>
           </div>
         </article>
-        <!-- Producto de muestra ilustrativo para la demo (contenido no final, catálogo real pendiente del cliente). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo4.jpg" alt="Globo Corazón y Rosas" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -184,7 +165,6 @@
             </a>
           </div>
         </article>
-        <!-- Producto de muestra ilustrativo para la demo (contenido no final, catálogo real pendiente del cliente). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo5.jpg" alt="Globo Metálico XL" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -202,7 +182,6 @@
       <h2 class="catalogo-tabs__categoria-titulo">Rosas Eternas</h2>
       <p class="catalogo-tabs__categoria-descripcion">Duran hasta un año, siempre frescas.</p>
       <div class="catalogo-tabs__productos">
-        <!-- Producto de muestra de example-design (copy real de referencia). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo5.jpg" alt="Caja Mini Rosa Eterna" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -213,7 +192,6 @@
             </a>
           </div>
         </article>
-        <!-- Producto de muestra de example-design (copy real de referencia). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo2.jpg" alt="Caja Premium" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -224,7 +202,6 @@
             </a>
           </div>
         </article>
-        <!-- Producto de muestra ilustrativo para la demo (contenido no final, catálogo real pendiente del cliente). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo3.jpg" alt="Caja Corazón Eterna" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -235,7 +212,6 @@
             </a>
           </div>
         </article>
-        <!-- Producto de muestra ilustrativo para la demo (contenido no final, catálogo real pendiente del cliente). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo4.jpg" alt="Caja Trío Eterno" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -246,7 +222,6 @@
             </a>
           </div>
         </article>
-        <!-- Producto de muestra ilustrativo para la demo (contenido no final, catálogo real pendiente del cliente). -->
         <article class="tarjeta-categoria">
           <img class="tarjeta-categoria__imagen" src="assets/img/ramo1.jpg" alt="Caja Eterna Deluxe" width="600" height="600" loading="lazy">
           <div class="tarjeta-categoria__cuerpo">
@@ -263,7 +238,7 @@
   </div>
 </main>
 
-<!-- Footer compartido con index.html (enlaces apuntando a la home): mantener en sincronía. -->
+<!-- Footer duplicado en index.html y catalogo.html: replicar cualquier cambio en ambas. -->
 <footer id="contacto" class="footer">
   <div class="footer__contenido">
     <div class="footer__grupo">
@@ -287,11 +262,11 @@
         </div>
       </div>
 
-      <!-- TODO: sustituir por mapa real (imagen estática o embed) cuando el cliente lo defina. -->
+      <!-- TODO: mapa real (imagen estática o embed) pendiente del cliente. -->
       <div class="footer__mapa">
       <iframe
         src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3980!2d-99.1332!3d19.4326!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMTnCsDI1JzU3LjQiTiA5OcKwMDcnNTkuNSJX!5e0!3m2!1ses!2smx!4v1700000000000"
-        title="Mapa de ubicación de La Esquina 24H"
+        title="Mapa de ubicación de CocoGifts"
         loading="lazy"
         referrerpolicy="no-referrer-when-downgrade"
         allowfullscreen></iframe>
