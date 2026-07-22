@@ -121,7 +121,7 @@ Tokens de radio: `--radio-tarjeta: 16px`, `--radio-boton: 12px`.
    junto al título.
 5. **Galería** (`#galeria`) — grid de 2 columnas, 6 fotos de trabajos.
 6. **Comunidad** (`#comunidad`) — tarjeta rosada: "31K seguidores en Instagram", 2
-   posts (embeds oficiales de Instagram, ver "Instagram" más abajo) y botón "Seguir
+   posts (miniaturas enlazadas a Instagram, ver "Instagram" más abajo) y botón "Seguir
    @cocogifts.ve".
 7. **Footer** (`#contacto`) — descripción, horario (L–S 9:00 am–6:00 pm, domingo
    cerrado), dirección (Av. Los Próceres con Calle 33, Acarigua), mapa, CTAs
@@ -142,36 +142,16 @@ Los enlaces a Instagram del sitio (nav, botón "Seguir" de Comunidad y footer) a
 al perfil real `https://www.instagram.com/cocogifts.ve/`, y "31K seguidores" es un dato
 real.
 
-Los 2 posts de la sección Comunidad son **embeds oficiales de Instagram**
-(`<blockquote class="instagram-media" data-instgrm-permalink="...">`, sin
-`data-instgrm-captioned` para mantenerlos compactos), no imágenes locales:
+Los 2 posts de la sección Comunidad son `<img>` normales envueltas en un `<a>` a la
+publicación real (sin embed oficial de Instagram):
 
-- Post 1 → `https://www.instagram.com/p/DYw1OBeFoWW/`
-- Post 2 → `https://www.instagram.com/p/DV9XEy_FAyK/`
+- Miniatura 1 → `assets/img/ramo1.jpg` → `https://www.instagram.com/p/DV9XEy_FAyK/`
+- Miniatura 2 → `assets/img/ramo2.jpg` → `https://www.instagram.com/p/DYw1OBeFoWW/`
 
-⚠️ El atributo `data-instgrm-permalink` usa el **formato canónico sin el usuario en
-la ruta** (`instagram.com/p/{shortcode}/`), igual que el código de embed que genera
-el propio Instagram — no `instagram.com/cocogifts.ve/p/{shortcode}/`. La versión con
-usuario en la ruta provoca que Instagram rechace la carga del iframe por
-`X-Frame-Options`. El `<a>` de respaldo dentro del blockquote sí conserva la URL con
-el usuario (`https://www.instagram.com/cocogifts.ve/`), que es válida como enlace
-normal aunque no sirva como valor de `data-instgrm-permalink`. El handle de la cuenta
-es `@cocogifts.ve` (confirmado).
-
-El script oficial `https://www.instagram.com/embed.js` (cargado una sola vez, al
-final del `body` de `index.html`, con `async` y `defer`) reemplaza cada blockquote
-por el post real embebido (foto y datos incluidos). Es la **segunda excepción
-documentada** a "sin dependencias externas" (ver Convenciones técnicas): la única
-forma de mostrar una publicación específica real sin descargar y alojar su contenido.
-Cada `<blockquote>` incluye internamente un `<a>` a la publicación real, así que si el
-script no carga (bloqueador de anuncios, sin conexión) el contenido de respaldo sigue
-siendo un enlace clickeable a Instagram, no un espacio roto — no depende de JS propio.
-El CSS solo limita el ancho del contenedor (`.comunidad__embed`, `max-width: 360px`)
-para que el embed no se vea desproporcionado; no oculta el contenido de respaldo.
-
-Esta dependencia añade una petición de red externa (embed.js más, si carga, el
-iframe/oEmbed de cada post) que puede afectar el tiempo de carga inicial de la sección
-Comunidad — aceptado como costo de mostrar contenido real de Instagram sin alojarlo.
+⚠️ `ramo1.jpg` y `ramo2.jpg` son **placeholders temporales** (fotos de muestra del
+sitio, no las fotos reales de cada publicación) mientras se suben las imágenes
+correspondientes a esos dos posts específicos. Cada `<img>` lleva un comentario HTML
+que identifica cuál reemplazar.
 
 ## Página catalogo.html
 
@@ -231,9 +211,8 @@ otro. Los CTA a nivel de categoría del mini-catálogo usan el nombre de la cate
 - **BEM** en todo HTML/CSS (`.bloque__elemento--modificador`).
 - **JS vanilla**, mínimo indispensable. Sin librerías, frameworks ni npm. Todo debe
   funcionar razonablemente sin JS (mejora progresiva).
-- **Sin dependencias externas** — dos excepciones documentadas: Google Fonts
-  (Inter / Inter Tight) y el script oficial de embeds de Instagram (`embed.js`,
-  ver "Instagram" arriba), necesario para mostrar los 2 posts reales de Comunidad.
+- **Sin dependencias externas** — una excepción documentada: Google Fonts
+  (Inter / Inter Tight).
 - **Comentarios**: formales y funcionales; explican el porqué de lo no evidente, sin
   narrar historial.
 - **Contenido**: solo copy/estructura que exista en `example-design/`. Lo que falte se
@@ -248,5 +227,7 @@ otro. Los CTA a nivel de categoría del mini-catálogo usan el nombre de la cate
 - Precios reales (hoy ningún producto lleva precio).
 - Número de WhatsApp real (placeholder `584120000000` en todos los enlaces `wa.me`).
 - Fotos reales (las actuales son de muestra).
+- Fotos reales de los 2 posts de Instagram en Comunidad (hoy `ramo1.jpg` / `ramo2.jpg`
+  como placeholder temporal, ver "Instagram" arriba).
 - Mapa real de ubicación (el footer usa un embed provisional).
 - Catálogo completo definitivo (los productos de muestra ilustrativos son provisionales).
